@@ -87,3 +87,11 @@ h1 {
 .button_1 {
   @apply w-full text-4xl flex items-center justify-center;
 }
+
+#nowDisplay h2 {
+  @apply text-4xl;
+}
+
+#nowDisplay {
+  @apply p-8;
+}
