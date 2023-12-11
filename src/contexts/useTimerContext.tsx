@@ -33,6 +33,8 @@ export function TimerProvider({ children }: TimerProviderProps) {
             if (distance < 0) {
                 setIsExpired(true)
                 clearInterval(interval);
+            } else if (isExpired) {
+                setIsExpired(false)
             }
 
 

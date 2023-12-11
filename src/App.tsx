@@ -1,20 +1,35 @@
 import { ChangeEvent } from 'react';
 import { useTimerContext } from './contexts/useTimerContext'
+import { useGlobalContext } from './contexts/useGlobalContext';
+import SettingsModal from './components/SettingsModal';
 
 function App() {
   const { changeEndTimeFromString, isExpired, days, hours, minutes, seconds } = useTimerContext()
+  const { setModal, modal0, modal1 } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void, modal0: JSX.Element }
 
   const handleEndTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     changeEndTimeFromString(target.value);
   };
 
+  const handleClickTimer = () => {
+    setModal(0, (
+      <SettingsModal id={0} />
+    ))
+  }
+
   return (
     <>
+      {
+        modal0 && modal0
+      }
+      {
+        modal1 && modal1
+      }
       <div
         id="bgMain"
         className='flex justify-center h-full w-full items-center'>
-        <div id="timerMain" className='relative transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-white flex justify-center items-center'>
+        <div onClick={handleClickTimer} id="timerMain" className='relative transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-white flex justify-center items-center'>
           {
             !isExpired ? (
               <>
