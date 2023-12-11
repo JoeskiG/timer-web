@@ -47,7 +47,7 @@ export function formatDate(dateString: string): string {
   const month = months[date.getMonth()];
   const year = date.getFullYear();
 
-  const ordinalSuffix = (dayOfMonth) => {
+  const ordinalSuffix = (dayOfMonth: number) => {
     if (dayOfMonth >= 11 && dayOfMonth <= 13) {
       return 'th';
     }
