@@ -5,7 +5,7 @@ import SettingsModal from './components/SettingsModal';
 
 function App() {
   const { changeEndTimeFromString, isExpired, days, hours, minutes, seconds } = useTimerContext()
-  const { setModal, modal0, modal1 } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void, modal0: JSX.Element }
+  const { setModal, modal0, modal1 } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void, modal0: JSX.Element, modal1: JSX.Element }
 
   const handleEndTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;

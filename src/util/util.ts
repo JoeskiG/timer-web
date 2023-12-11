@@ -7,7 +7,7 @@ export interface IMonthData {
   }
 
 
-export function getMonthData(year: number, monthString: string): IMonthData {
+export function getMonthData(year: number, monthString: string): IMonthData | null {
     const monthIndex = CONSTANTS.months.findIndex(m => m.toLowerCase() === monthString.toLowerCase())
     if (typeof monthIndex === 'undefined') {
         return null

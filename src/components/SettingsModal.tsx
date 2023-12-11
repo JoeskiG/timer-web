@@ -20,34 +20,40 @@ function SettingsModal(props: ISettingsModal): JSX.Element {
 
 
     const [day, setDay] = useState<number>(1)
-    const [month, setMonth] = useState<IMonthData>(getMonthData(defaultYear, CONSTANTS.months[0]))
+    const [month, setMonth] = useState<IMonthData | null>(getMonthData(defaultYear, CONSTANTS.months[0]))
     const [year, setYear] = useState<number>(2024)
 
     const handleChangeMonth = (newMonth: string) => {
-        const newMonthSimple = CONSTANTS.months.find(m => m.toLowerCase() === newMonth.toLowerCase())
+        const newMonthSimple = CONSTANTS.months.find(m => m.toLowerCase() === newMonth.toLowerCase()) as string
         const newMonthObj = getMonthData(year, newMonthSimple)
         setMonth(newMonthObj)
         return newMonth
     }
 
     const handleUpdateDate = () => {
-        const newDate = new Date(`${day} ${month.shortText}, ${year}`).getTime()
-        if (newDate < now) {
+        const newDate = month ? new Date(`${day} ${month.shortText}, ${year}`).getTime() : 0;
+
+        if (month && newDate < now.getTime()) {
             setModal(1, (
-                <BaseModal title="Date must be in the future!" id={1} >
+                <BaseModal title="Date must be in the future!" id={1}>
                 </BaseModal>
-            ))
-            return
+            ));
+            return;
         }
-        changeEndTimeFromString(`${day} ${month.shortText}, ${year}`)
-        removeModal(props.id)
+
+        if (month) {
+            changeEndTimeFromString(`${day} ${month.shortText}, ${year}`);
+        }
+
+        removeModal(props.id);
+
     }
 
     useEffect(() => {
 
 
-        if (day > month.lastDate) {
-            setDay(month.lastDate)
+        if (month && day > month.lastDate) {
+            setDay(month.lastDate);
         }
 
     }, [year, month])
@@ -56,8 +62,14 @@ function SettingsModal(props: ISettingsModal): JSX.Element {
         <BaseModal minWidth="20%" id={props.id} title="Change Countdown Date">
             <div className="flex flex-col justify-center items-center gap-4 pb-4">
                 <div className="w-full grid grid-cols-3 gap-2 justify-evenly items-center py-4">
-                    <IncrementControl value={day} onChange={setDay} min={1} max={month.lastDate} type={CONTROL_TYPES.number} />
-                    <IncrementControl value={month.text} onChange={handleChangeMonth} type={CONTROL_TYPES.options} options={CONSTANTS.months} />
+                    <IncrementControl value={day} onChange={setDay} min={1} max={month?.lastDate} type={CONTROL_TYPES.number} />
+                    <IncrementControl
+                        value={month?.text || ""}
+                        onChange={handleChangeMonth}
+                        type={CONTROL_TYPES.options}
+                        options={CONSTANTS.months}
+                    />
+
                     <IncrementControl value={year} onChange={setYear} min={now.getFullYear()} max={3000} type={CONTROL_TYPES.number} />
                 </div>
 

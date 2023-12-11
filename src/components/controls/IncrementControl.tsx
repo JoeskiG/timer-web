@@ -46,7 +46,7 @@ function IncrementControl(props: IIncrementControl): JSX.Element {
         )
     } else if (props.type === CONTROL_TYPES.options) {
         const currentValue = props.value
-        const options = props.options
+        const options = props.options || []
 
         const handleIncrement = () => {
             const currentIndex = options?.findIndex(opt => opt == currentValue)
@@ -58,6 +58,9 @@ function IncrementControl(props: IIncrementControl): JSX.Element {
 
         const handleDecrement = () => {
             const currentIndex = options?.findIndex(opt => opt == currentValue)
+            if (typeof currentIndex === 'undefined') {
+                return
+            }
             if (currentIndex - 1 < 0) {
                 return
             }
@@ -71,6 +74,10 @@ function IncrementControl(props: IIncrementControl): JSX.Element {
                 <p className="!text-3xl font-bold">{currentValue}</p>
                 <button className="button_1" onClick={handleDecrement}><FaChevronDown /></button>
             </div>
+        )
+    } else {
+        return (
+            <p>Error</p>
         )
     }
 
