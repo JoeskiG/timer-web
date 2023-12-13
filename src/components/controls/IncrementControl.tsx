@@ -17,8 +17,8 @@ function IncrementControl(props: IIncrementControl): JSX.Element {
     if (props.type === CONTROL_TYPES.number) {
         const currentValue = Number(props.value)
         const step = Number(props.step) || 1
-        const max = Number(props.max) || Infinity
-        const min = Number(props.min) || -Infinity
+        const max = typeof props.max !== undefined ? (Number(props.max)) : Infinity
+        const min = typeof props.min !== undefined ? (Number(props.min)) : Infinity
 
         const handleIncrement = () => {
             if (currentValue + step > max) {

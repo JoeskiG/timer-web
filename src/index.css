@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bgColor0: #fff;
+  --bgColor1: #e0e0e0;
+}
 
 html,
 body,
@@ -75,8 +79,8 @@ h1 {
 .modalContainer {
   display: flex;
   flex-direction: column;
-
-  background-color: white;
+  gap: 2rem;
+  background-color: var(--bgColor0);
   @apply rounded-2xl shadow-2xl;
 }
 
@@ -86,6 +90,18 @@ h1 {
 
 .button_1 {
   @apply w-full text-4xl flex items-center justify-center;
+}
+
+.button_2 {
+  @apply text-2xl shadow-md px-6 py-2 rounded-full bg-green-400;
+}
+
+.verticalTab {
+  @apply px-4 text-left py-2 transition-all;
+}
+
+.verticalTabSelected {
+  @apply bg-gray-300 rounded-full font-bold;
 }
 
 #nowDisplay h2 {

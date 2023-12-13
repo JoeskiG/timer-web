@@ -24,7 +24,7 @@ function BaseModal(props: IBaseModal): JSX.Element {
             <div className="modalContainer" style={props.minWidth !== null ? { minWidth } : undefined}>
                 <div className="flex flex-col justify-between items-center gap-4">
                     {/* HEADING */}
-                    <div className="p-4 w-full flex flex-row justify-between items-center">
+                    <div className="p-4 w-full gap-16 flex flex-row justify-between items-center">
                         <h1 className="!text-4xl">{props?.title}</h1>
                         <a className="cursor-pointer scale-[150%] " onClick={removeSelf}>
                             <FaXmark size={30} />

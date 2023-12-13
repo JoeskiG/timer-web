@@ -1,4 +1,6 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { Countdown } from "../util/countdown";
+import { makeID } from "../util/util";
 
 const TimerContext = createContext<any>({})
 
@@ -8,72 +10,94 @@ interface TimerProviderProps {
     children: ReactNode;
 }
 
+interface ICountdown {
+    endTime: number,
+    id: string
+}
 
 export function TimerProvider({ children }: TimerProviderProps) {
-    const [endTime, setEndTime] = useState<number>(i_endTime)
 
-    const [isExpired, setIsExpired] = useState<boolean>(false)
+    const [countdowns, setCountdowns] = useState<Countdown[]>([])
 
-    // const [percentageCompleted, setPercentageCompleted] = useState<number>(0)
+    function addCountdown(item: Countdown) {
+        setCountdowns(prevState => {
+            const newState = [...prevState, item]
+            return newState
+        })
 
-    const [days, setDays] = useState<number>(0)
-    const [hours, setHours] = useState<number>(0)
-    const [minutes, setMinutes] = useState<number>(0)
-    const [seconds, setSeconds] = useState<number>(0)
-
+        saveCountdown(item)
+    }
 
     useEffect(() => {
 
-        const interval = setInterval(() => {
+        loadSavedCountdowns()
 
-            const now = new Date().getTime()
+        const intervalId = setInterval(() => {
+            // Update the state based on the current state
+            setCountdowns(prevIntervals => [...prevIntervals]);
+        }, 1000); // Run the interval every 1000 milliseconds (1 second)
 
-            const distance = endTime - now;
+        // Clean up the interval when the component is unmounted
+        return () => clearInterval(intervalId);
+    }, []);
 
-            if (distance < 0) {
-                setIsExpired(true)
-                clearInterval(interval);
-            } else if (isExpired) {
-                setIsExpired(false)
+    function loadSavedCountdowns() {
+        var savedCountdowns = localStorage.getItem('savedCountdowns')
+
+        if (savedCountdowns) {
+            var savedCountdownsParsed: ICountdown[] = JSON.parse(savedCountdowns)
+            const countdownsToAdd: Countdown[] = []
+            for (var cd of savedCountdownsParsed) {
+                const newCountdown: Countdown = new Countdown(cd.endTime, cd.id)
+                countdownsToAdd.push(newCountdown)
             }
 
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            setDays(days)
-            setHours(hours)
-            setMinutes(minutes)
-            setSeconds(seconds)
-
-
-        }, 1000)
-
-        return () => {
-            clearInterval(interval)
+            setCountdowns(countdownsToAdd)
         }
-    }, [endTime])
+    }
 
+    function saveCountdown(item: Countdown) {
+        var savedCountdowns = localStorage.getItem('savedCountdowns')
 
-    const changeEndTimeFromString = (time: string): void => {
-        const newEndTime = new Date(time).getTime()
-        setEndTime(newEndTime)
-        localStorage.setItem('savedEndTime', newEndTime.toString())
+        var savedCountdownsParsed: ICountdown[] = savedCountdowns ? JSON.parse(savedCountdowns) : []
+        savedCountdownsParsed.push({
+            endTime: item.endTime,
+            id: makeID(10)
+        })
+        localStorage.setItem('savedCountdowns', JSON.stringify(savedCountdownsParsed))
+    }
+
+    function deleteCountdown(id: string) {
+        var savedCountdowns = localStorage.getItem('savedCountdowns')
+
+        if (!savedCountdowns) {
+            return
+        }
+
+        var savedCountdownsParsed: ICountdown[] = JSON.parse(savedCountdowns)
+
+        const foundCountdownIndex = savedCountdownsParsed.findIndex(cd => cd.id === id)
+        if (typeof foundCountdownIndex !== 'undefined') {
+            savedCountdownsParsed.splice(foundCountdownIndex, 1)
+            setCountdowns(prevState => {
+                const newState = [...prevState]
+                const deleteIndex = newState.findIndex(cd => cd.id === id)
+                newState.splice(deleteIndex, 1)
+                return newState
+            })
+
+            localStorage.setItem('savedCountdowns', JSON.stringify(savedCountdownsParsed))
+        }
     }
 
 
 
+
     const value = {
-        endTime,
-        setEndTime,
-        changeEndTimeFromString,
-        isExpired,
-        days,
-        hours,
-        minutes,
-        seconds
+        countdowns,
+        setCountdowns,
+        addCountdown,
+        deleteCountdown
     }
 
     return (
