@@ -8,6 +8,7 @@ import { useGlobalContext } from "../contexts/useGlobalContext"
 import VerticalTabControl from "./controls/VerticalTabControl"
 import CountdownMenu from "./menu/CountdownsMenu"
 import { Countdown } from "../util/countdown"
+import SettingsMenu from "./menu/SettingsMenu"
 
 interface ISettingsModal {
     id: number
@@ -15,7 +16,7 @@ interface ISettingsModal {
 
 const defaultYear = 2024
 
-function SettingsModal(props: ISettingsModal): JSX.Element {
+function MenuModal(props: ISettingsModal): JSX.Element {
 
     const { addCountdown } = useTimerContext() as { addCountdown: (item: Countdown) => void }
     const { removeModal, setModal } = useGlobalContext() as { removeModal: (id: number) => void, setModal: (id: number, element: JSX.Element) => void }
@@ -79,7 +80,7 @@ function SettingsModal(props: ISettingsModal): JSX.Element {
     }, [year, month])
 
     return (
-        <BaseModal minWidth="20%" id={props.id} title="Settings">
+        <BaseModal minWidth="50%" id={props.id} title="Menu">
             <>
 
 
@@ -104,7 +105,7 @@ function SettingsModal(props: ISettingsModal): JSX.Element {
                             {
                                 title: "Settings",
                                 disabled: false,
-                                component: <></>
+                                component: <SettingsMenu />
                             },
                         ]}
                     />
@@ -118,4 +119,4 @@ function SettingsModal(props: ISettingsModal): JSX.Element {
     )
 }
 
-export default SettingsModal
+export default MenuModal

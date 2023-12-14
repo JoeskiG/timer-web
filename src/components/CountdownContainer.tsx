@@ -19,8 +19,8 @@ function CountdownContainer({ countdown }: ICountdownContainer): JSX.Element {
             {/* <div className="flex flex-row justify-between">
                 <p>Countdown 1</p>
             </div> */}
-            <div className='z-10 h-full w-full flex gap-8 flex-row items-center justify-center'>
-                <div className='z-10 h-full w-full flex gap-8 flex-row items-center justify-center'>
+            <div className='z-10 h-full flex gap-8 flex-row items-center justify-center'>
+                <div className='z-10 h-full flex gap-1 flex-row items-center justify-center'>
                     {
                         countdown.days > 0 && (
                             <>
@@ -65,10 +65,13 @@ function CountdownContainer({ countdown }: ICountdownContainer): JSX.Element {
                         )
                     }
 
-                    <button onClick={handleClickDelete} className="button_2 !shadow-none !bg-red-400" ><FaRegTrashCan /></button>
+
 
                 </div>
 
+            </div>
+            <div className="flex items-center justify-center">
+                <button onClick={handleClickDelete} className="button_circle !bg-red-400" ><FaRegTrashCan /></button>
             </div>
         </div>
     )

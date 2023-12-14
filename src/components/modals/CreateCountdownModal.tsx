@@ -5,15 +5,13 @@ import IncrementControl from "./../controls/IncrementControl"
 import BaseModal from "./../templates/BaseModal"
 import { IMonthData, getMonthData } from "../../util/util"
 import { useGlobalContext } from "../../contexts/useGlobalContext"
-import VerticalTabControl from "./../controls/VerticalTabControl"
-import CountdownMenu from "./../menu/CountdownsMenu"
 import { Countdown } from "../../util/countdown"
 
 interface ISettingsModal {
     id: number
 }
 
-const defaultYear = 2024
+const defaultYear = new Date().getFullYear()
 
 function CreateCountdownModal(props: ISettingsModal): JSX.Element {
 
@@ -106,7 +104,7 @@ function CreateCountdownModal(props: ISettingsModal): JSX.Element {
 
                     <div className="flex flex-row gap-4 justify-between w-full px-4 mt-4 items-center">
                         <button className="button_2 !bg-blue-400" onClick={handleClickSetNow}>Now</button>
-                        <button onClick={handleUpdateDate} className="button_2" style={{ width: "fit-content" }}>Set New Countdown</button>
+                        <button onClick={handleUpdateDate} className="button_2" style={{ width: "fit-content" }}>Create</button>
                     </div>
 
                 </div>

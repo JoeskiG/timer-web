@@ -5,10 +5,11 @@ import MenuModal from './components/MenuModal';
 import { formatDate } from './util/util';
 import { FaGear } from 'react-icons/fa6';
 import { Countdown } from './util/countdown';
+import { BACKGROUND_MODES } from './util/constants';
 
 function App() {
   const { countdowns } = useTimerContext() as { countdowns: Countdown[] }
-  const { setModal, modal0, modal1 } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void, modal0: JSX.Element, modal1: JSX.Element }
+  const { setModal, modal0, modal1, backgroundMode, backgroundSettings } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void, modal0: JSX.Element, modal1: JSX.Element, backgroundMode: BACKGROUND_MODES, backgroundSettings: any }
 
 
   const handleClickTimer = () => {
@@ -27,10 +28,14 @@ function App() {
       }
       <div
         id="bgMain"
+        style={{
+          backgroundColor: backgroundSettings.color1,
+          backgroundImage: `radial-gradient(circle farthest-side at top right, transparent, ${backgroundSettings.color2}), radial-gradient(ellipse farthest-corner at 0% 100%, transparent, ${backgroundSettings.color3});`
+        }}
         className='flex gap-16 flex-col justify-center h-full w-full items-center'>
         <div onClick={handleClickTimer} id="timerMain" className='relative transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-white flex justify-center items-center'>
           {
-            countdowns.length > 0 && (
+            countdowns.length > 0 ? (
               !countdowns[0].isExpired ? (
                 <>
                   {/* <div className='w-full absolute h-full'>
@@ -89,6 +94,8 @@ function App() {
               ) : (
                 <h1>Timer ended</h1>
               )
+            ) : (
+              <h1>Click to start</h1>
             )
           }
 

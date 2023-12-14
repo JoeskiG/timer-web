@@ -52,9 +52,9 @@ h1 {
 }
 
 #bgMain {
-  background-color: #14C2CC;
+  /* background-color: #14C2CC;
   background-image:
-    radial-gradient(circle farthest-side at top right, transparent, #fc3ee6), radial-gradient(ellipse farthest-corner at 0% 100%, transparent, #FF00A0);
+    radial-gradient(circle farthest-side at top right, transparent, #fc3ee6), radial-gradient(ellipse farthest-corner at 0% 100%, transparent, #FF00A0); */
   animation: bg-change 10s infinite;
 }
 
@@ -94,6 +94,15 @@ h1 {
 
 .button_2 {
   @apply text-2xl shadow-md px-6 py-2 rounded-full bg-green-400;
+}
+
+.button_circle {
+  @apply p-4 rounded-full hover:brightness-95;
+  width: fit-content;
+}
+
+.button_3 {
+  @apply px-2 rounded-full bg-blue-400 flex flex-row gap-2 items-center justify-center;
 }
 
 .verticalTab {

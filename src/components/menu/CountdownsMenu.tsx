@@ -16,7 +16,7 @@ function CountdownMenu(): JSX.Element {
     }
 
     return (
-        <div className="relative">
+        <div className="relative w-full">
             <button className="button_2 absolute bottom-0 right-0 z-20" onClick={handleClickCreate}>New</button>
             <div className="flex flex-col gap-4 overflow-y-auto pb-16">
                 {

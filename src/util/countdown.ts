@@ -1,3 +1,5 @@
+import { makeID } from "./util"
+
 export class Countdown {
     private _id: string
 
@@ -15,9 +17,9 @@ export class Countdown {
 
     constructor(
         endTime: number | string,
-        id: string
+        id?: string | null
     ) {
-        this._id = id
+        this._id = id || makeID(10)
         this._dateObj = new Date(endTime)
 
         this._endTime = this._dateObj.getTime()

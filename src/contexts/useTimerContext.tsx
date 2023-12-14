@@ -4,8 +4,6 @@ import { makeID } from "../util/util";
 
 const TimerContext = createContext<any>({})
 
-const i_endTime = Number(localStorage.getItem('savedEndTime')) || new Date("Dec 31, 2100 00:00:00").getTime()
-
 interface TimerProviderProps {
     children: ReactNode;
 }
