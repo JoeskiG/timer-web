@@ -1,10 +1,15 @@
 import { ReactNode, createContext, useContext, useState } from "react";
 import { BACKGROUND_MODES, CONSTANTS } from "../util/constants";
-import { getSavedBackground } from "../util/util";
+import { getSavedBackground, saveBackground } from "../util/util";
 
 const GlobalContext = createContext<any>({})
 
 const i_savedBackground = getSavedBackground()
+
+var i_showCurrentDate = localStorage.getItem('showCurrentDate')
+
+const i_showCurrentDateParsed = i_showCurrentDate ? JSON.parse(i_showCurrentDate) : null
+
 
 interface GlobalProviderProps {
     children: ReactNode;
@@ -16,7 +21,9 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
     const [modal2, setModal2] = useState<JSX.Element | null>(null);
 
     const [backgroundMode, setBackgroundMode] = useState<BACKGROUND_MODES>(i_savedBackground ? (i_savedBackground.mode) : CONSTANTS.defaults.background.mode)
-    const [backgroundSettings, setBackgroundSettings] = useState<any>(i_savedBackground ? (i_savedBackground.colors) : CONSTANTS.defaults.background.colors)
+    const [backgroundSettings, setBackgroundSettings] = useState<any>(i_savedBackground ? (i_savedBackground) : CONSTANTS.defaults.background)
+
+    const [showCurrentDate, setShowCurrentDate] = useState<boolean>(i_showCurrentDateParsed !== null ? i_showCurrentDateParsed : CONSTANTS.defaults.settings.showCurrentDate)
 
     function setModal(id: number, element: JSX.Element) {
         if (id === 0) {
@@ -46,7 +53,18 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
 
     function updateBackground(newBackground: any) {
         setBackgroundMode(newBackground.mode)
-        setBackgroundSettings(newBackground.colors)
+        setBackgroundSettings(newBackground)
+
+        saveBackground(newBackground)
+    }
+
+    function toggleShowCurrentDate(): boolean {
+        const newShowCurrentDate = !showCurrentDate
+        setShowCurrentDate(newShowCurrentDate)
+
+        localStorage.setItem('showCurrentDate', JSON.stringify(newShowCurrentDate))
+
+        return newShowCurrentDate
     }
 
 
@@ -59,7 +77,11 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
 
         backgroundMode,
         backgroundSettings,
-        updateBackground
+        updateBackground,
+
+        showCurrentDate,
+        setShowCurrentDate,
+        toggleShowCurrentDate
     }
 
     return (

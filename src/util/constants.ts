@@ -22,7 +22,11 @@ export const CONSTANTS = {
                 color1: "#14C2CC",
                 color2: "#fc3ee6",
                 color3: "#FF00A0"
-            }
+            },
+            animationDuration: 10000 //ms
+        },
+        settings: {
+            showCurrentDate: true
         }
 
     }

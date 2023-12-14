@@ -5,6 +5,9 @@
 :root {
   --bgColor0: #fff;
   --bgColor1: #e0e0e0;
+
+  --primaryColor: #4ade80;
+  --secondaryColor: #60a5fa;
 }
 
 html,
@@ -47,7 +50,21 @@ h1 {
   }
 
   50% {
-    filter: hue-rotate(-45deg);
+    filter: hue-rotate(-180deg);
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
   }
 }
 
@@ -55,7 +72,20 @@ h1 {
   /* background-color: #14C2CC;
   background-image:
     radial-gradient(circle farthest-side at top right, transparent, #fc3ee6), radial-gradient(ellipse farthest-corner at 0% 100%, transparent, #FF00A0); */
-  animation: bg-change 10s infinite;
+  background-size: 400% 400% !important;
+  animation: gradient 3s ease infinite;
+}
+
+.slider {
+  -webkit-appearance: none;
+  @apply w-full bg-gray-200 rounded-full;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: 4px solid var(--secondaryColor);
+  @apply bg-[var(--secondaryColor)] rounded-full w-4 h-4;
 }
 
 
@@ -88,6 +118,7 @@ h1 {
   font-size: 1.75rem;
 }
 
+
 .button_1 {
   @apply w-full text-4xl flex items-center justify-center;
 }
@@ -102,7 +133,15 @@ h1 {
 }
 
 .button_3 {
-  @apply px-2 rounded-full bg-blue-400 flex flex-row gap-2 items-center justify-center;
+  @apply px-2 rounded-full flex flex-row gap-2 items-center justify-center;
+}
+
+.standardPadding {
+  @apply p-4;
+}
+
+.active {
+  @apply brightness-90;
 }
 
 .verticalTab {

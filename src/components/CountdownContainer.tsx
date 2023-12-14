@@ -15,7 +15,7 @@ function CountdownContainer({ countdown }: ICountdownContainer): JSX.Element {
     }
 
     return (
-        <div className="flex flex-row justify-between transition-all bg-gray-200 rounded-full hover:shadow-md px-2 w-full">
+        <div className="flex flex-row items-center justify-between transition-all bg-gray-200 rounded-full hover:shadow-md px-2 w-full">
             {/* <div className="flex flex-row justify-between">
                 <p>Countdown 1</p>
             </div> */}
@@ -70,6 +70,7 @@ function CountdownContainer({ countdown }: ICountdownContainer): JSX.Element {
                 </div>
 
             </div>
+            <p>{countdown.dateObj.toLocaleString(undefined, { hour12: false })}</p>
             <div className="flex items-center justify-center">
                 <button onClick={handleClickDelete} className="button_circle !bg-red-400" ><FaRegTrashCan /></button>
             </div>

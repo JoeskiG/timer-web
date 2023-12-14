@@ -64,13 +64,6 @@ export function formatDate(dateString: string): string {
 }
 
 
-
-function changeEndTimeFromString(time: string) {
-  const newEndTime = new Date(time).getTime()
-  setEndTime(newEndTime)
-  localStorage.setItem('savedEndTime', newEndTime.toString())
-}
-
 export function makeID(length: number): string {
   let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -92,4 +85,10 @@ export function getSavedBackground() {
   const savedBackgroundParsed = JSON.parse(savedBackground)
 
   return savedBackgroundParsed
+}
+
+export function saveBackground(background: any) {
+  localStorage.setItem('savedBackground', JSON.stringify(background))  
+
+
 }
