@@ -115,7 +115,10 @@ function App() {
             })
 
           ) : (
-            <h1>Click to start</h1>
+            <div onClick={handleClickTimer} id="timerMain" className='transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-white flex justify-center items-center'>
+              <h1>Click to start</h1>
+
+            </div>
           )
         }
 
