@@ -7,13 +7,13 @@ import { IMonthData, getMonthData } from "../../util/util"
 import { useGlobalContext } from "../../contexts/useGlobalContext"
 import { Countdown } from "../../util/countdown"
 
-interface ISettingsModal {
+interface ICreateCountdownModal {
     id: number
 }
 
 const defaultYear = new Date().getFullYear()
 
-function CreateCountdownModal(props: ISettingsModal): JSX.Element {
+function CreateCountdownModal(props: ICreateCountdownModal): JSX.Element {
 
     const { addCountdown } = useTimerContext() as { addCountdown: (item: Countdown) => void }
     const { removeModal, setModal } = useGlobalContext() as { removeModal: (id: number) => void, setModal: (id: number, element: JSX.Element) => void }

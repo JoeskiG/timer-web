@@ -20,7 +20,7 @@ function VerticalTabControl({ tabs }: IVerticalTabControl): JSX.Element {
     }
 
     return (
-        <div className="flex flex-row w-full gap-2">
+        <div className="flex flex-row w-full h-full gap-2">
             <div className="flex flex-col gap-2 bg-gray-200 rounded-lg p-2">
                 {
                     tabs.length > 0 && (

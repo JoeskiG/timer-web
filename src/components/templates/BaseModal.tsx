@@ -6,14 +6,18 @@ interface IBaseModal {
     id: number,
     title: string,
     children?: JSX.Element | null,
-    minWidth?: string | null
+    minWidth?: string | null,
+    minHeight?: string | null,
+    height?: string | null
 }
 
 function BaseModal(props: IBaseModal): JSX.Element {
 
     const { removeModal } = useGlobalContext() as { removeModal: (id: number) => void }
 
-    const minWidth = props?.minWidth ?? ""
+    const minWidth = props?.minWidth ?? undefined
+    const minHeight = props?.minHeight ?? undefined
+    const height = props?.height ?? undefined
 
     function removeSelf() {
         removeModal(props.id)
@@ -21,8 +25,12 @@ function BaseModal(props: IBaseModal): JSX.Element {
 
     return (
         <div className="modalBackdrop">
-            <div className="modalContainer" style={props.minWidth !== null ? { minWidth } : undefined}>
-                <div className="flex flex-col justify-between items-center gap-4">
+            <div className="modalContainer" style={{
+                minWidth: props.minWidth !== null ? minWidth : undefined,
+                minHeight: props.minHeight !== null ? minHeight : undefined,
+                height: props.height !== null ? height : undefined,
+            }}>
+                <div className="flex h-full flex-col justify-between items-center gap-4">
                     {/* HEADING */}
                     <div className="p-4 w-full gap-16 flex flex-row justify-between items-center">
                         <h1 className="!text-4xl">{props?.title}</h1>
@@ -31,7 +39,7 @@ function BaseModal(props: IBaseModal): JSX.Element {
                         </a>
                     </div>
 
-                    <div className="w-full flex flex-col">
+                    <div className="w-full h-full flex flex-col">
                         {props?.children && props.children}
                     </div>
 

@@ -6,7 +6,7 @@ import { TimerProvider } from './contexts/useTimerContext.tsx'
 import { GlobalProvider } from './contexts/useGlobalContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <GlobalProvider>
       <TimerProvider>
         <App />
@@ -14,5 +14,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </GlobalProvider>
 
 
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { Countdown } from "../util/countdown";
 import { makeID } from "../util/util";
+import { Timer } from "../util/timer";
 
 const TimerContext = createContext<any>({})
 
@@ -13,9 +14,11 @@ interface ICountdown {
     id: string
 }
 
+
 export function TimerProvider({ children }: TimerProviderProps) {
 
     const [countdowns, setCountdowns] = useState<Countdown[]>([])
+    const [timers, setTimers] = useState<Timer[]>([])
 
     function addCountdown(item: Countdown) {
         setCountdowns(prevState => {
@@ -26,13 +29,24 @@ export function TimerProvider({ children }: TimerProviderProps) {
         saveCountdown(item)
     }
 
+    function addTimer(item: Timer) {
+        setTimers(prevState => {
+            const newState = [...prevState, item]
+            return newState
+        })
+
+        saveTimer(item)
+    }
+
     useEffect(() => {
 
+        loadSavedTimers()
         loadSavedCountdowns()
 
         const intervalId = setInterval(() => {
             // Update the state based on the current state
             setCountdowns(prevIntervals => [...prevIntervals]);
+            setTimers(prevIntervals => [...prevIntervals]);
         }, 1000); // Run the interval every 1000 milliseconds (1 second)
 
         // Clean up the interval when the component is unmounted
@@ -54,6 +68,21 @@ export function TimerProvider({ children }: TimerProviderProps) {
         }
     }
 
+    function loadSavedTimers() {
+        var savedTimers = localStorage.getItem('savedTimers')
+
+        if (savedTimers) {
+            var savedTimersParsed: ICountdown[] = JSON.parse(savedTimers)
+            const timersToAdd: Timer[] = []
+            for (var cd of savedTimersParsed) {
+                const newTimer: Timer = new Timer(undefined, cd.endTime, cd.id)
+                timersToAdd.push(newTimer)
+            }
+
+            setTimers(timersToAdd)
+        }
+    }
+
     function saveCountdown(item: Countdown) {
         var savedCountdowns = localStorage.getItem('savedCountdowns')
 
@@ -65,7 +94,26 @@ export function TimerProvider({ children }: TimerProviderProps) {
         localStorage.setItem('savedCountdowns', JSON.stringify(savedCountdownsParsed))
     }
 
+    function saveTimer(item: Timer) {
+        var savedTimers = localStorage.getItem('savedTimers')
+
+        var savedTimersParsed: ICountdown[] = savedTimers ? JSON.parse(savedTimers) : []
+        savedTimersParsed.push({
+            endTime: item.endTime,
+            id: makeID(10)
+        })
+        localStorage.setItem('savedTimers', JSON.stringify(savedTimersParsed))
+    }
+
     function deleteCountdown(id: string) {
+        setCountdowns(prevState => {
+            const newState = [...prevState]
+            const deleteIndex = newState.findIndex(cd => cd.id === id)
+            newState.splice(deleteIndex, 1)
+            return newState
+        })
+
+
         var savedCountdowns = localStorage.getItem('savedCountdowns')
 
         if (!savedCountdowns) {
@@ -77,14 +125,34 @@ export function TimerProvider({ children }: TimerProviderProps) {
         const foundCountdownIndex = savedCountdownsParsed.findIndex(cd => cd.id === id)
         if (typeof foundCountdownIndex !== 'undefined') {
             savedCountdownsParsed.splice(foundCountdownIndex, 1)
-            setCountdowns(prevState => {
-                const newState = [...prevState]
-                const deleteIndex = newState.findIndex(cd => cd.id === id)
-                newState.splice(deleteIndex, 1)
-                return newState
-            })
+            
 
             localStorage.setItem('savedCountdowns', JSON.stringify(savedCountdownsParsed))
+        }
+    }
+
+    function deleteTimer(id: string) {
+        setTimers(prevState => {
+            const newState = [...prevState]
+            const deleteIndex = newState.findIndex(tmr => tmr.id === id)
+            newState.splice(deleteIndex, 1)
+            return newState
+        })
+
+        var savedTimers = localStorage.getItem('savedTimers')
+
+        if (!savedTimers) {
+            return
+        }
+
+        var savedTimersParsed: ICountdown[] = JSON.parse(savedTimers)
+
+        const foundTimerIndex = savedTimersParsed.findIndex(tmr => tmr.id === id)
+        if (typeof foundTimerIndex !== 'undefined') {
+            savedTimersParsed.splice(foundTimerIndex, 1)
+            
+
+            localStorage.setItem('savedTimers', JSON.stringify(savedTimersParsed))
         }
     }
 
@@ -95,7 +163,13 @@ export function TimerProvider({ children }: TimerProviderProps) {
         countdowns,
         setCountdowns,
         addCountdown,
-        deleteCountdown
+        deleteCountdown,
+
+        timers,
+        setTimers,
+        addTimer,
+        deleteTimer,
+        saveTimer
     }
 
     return (
