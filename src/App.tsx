@@ -1,4 +1,3 @@
-import { ChangeEvent } from 'react';
 import { useTimerContext } from './contexts/useTimerContext'
 import { useGlobalContext } from './contexts/useGlobalContext';
 import MenuModal from './components/MenuModal';
@@ -54,74 +53,72 @@ function App() {
             }
           ) : (undefined)
         }
-        className='flex gap-16 flex-col justify-center h-full w-full transition-all items-center'>
-        <div onClick={handleClickTimer} id="timerMain" className='relative transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-white flex justify-center items-center'>
-          {
-            countdowns.length > 0 ? (
-              !countdowns[0].isExpired ? (
-                <>
-                  {/* <div className='w-full absolute h-full'>
-                    <div className='h-full bg-green-400 rounded-full'></div>
-                  </div> */}
+        className='flex gap-16 overflow-hidden flex-col p-4 justify-center h-full w-full transition-all items-center'>
+        {
+          countdowns.length > 0 ? (
+            countdowns.map((countdown: Countdown, i: number) => {
+              if (!countdown.isExpired) {
+                return (
+                  <div key={i} onClick={handleClickTimer} id="timerMain" className='transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-white flex justify-center items-center'>
+                    <div className='z-10 h-full w-full flex gap-8 flex-row items-center justify-center'>
+                      {
+                        countdown.days > 0 && (
+                          <>
+                            <div className='p-4'>
+                              <h1>{countdown.days} d</h1>
+                            </div>
+                            <p>:</p>
+                          </>
 
+                        )
+                      }
 
-                  <div className='z-10 h-full w-full flex gap-8 flex-row items-center justify-center'>
-                    {
-                      countdowns[0].days > 0 && (
-                        <>
-                          <div className='p-4'>
-                            <h1>{countdowns[0].days} d</h1>
-                          </div>
-                          <p>:</p>
-                        </>
+                      {
+                        countdown.hours >= 0 && (
+                          <>
+                            <div className='p-4'>
+                              <h1>{countdown.hours} h</h1>
+                            </div>
+                            <p>:</p>
+                          </>
+                        )
+                      }
 
-                      )
-                    }
+                      {
+                        countdown.minutes >= 0 && (
+                          <>
+                            <div className='p-4'>
+                              <h1>{countdown.minutes} m</h1>
+                            </div>
+                            <p>:</p>
+                          </>
+                        )
+                      }
 
-                    {
-                      countdowns[0].hours >= 0 && (
-                        <>
-                          <div className='p-4'>
-                            <h1>{countdowns[0].hours} h</h1>
-                          </div>
-                          <p>:</p>
-                        </>
-                      )
-                    }
+                      {
+                        countdown.seconds >= 0 && (
+                          <>
+                            <div className='p-4'>
+                              <h1>{countdown.seconds} s</h1>
+                            </div>
+                          </>
+                        )
+                      }
 
-                    {
-                      countdowns[0].minutes >= 0 && (
-                        <>
-                          <div className='p-4'>
-                            <h1>{countdowns[0].minutes} m</h1>
-                          </div>
-                          <p>:</p>
-                        </>
-                      )
-                    }
-
-                    {
-                      countdowns[0].seconds >= 0 && (
-                        <>
-                          <div className='p-4'>
-                            <h1>{countdowns[0].seconds} s</h1>
-                          </div>
-                        </>
-                      )
-                    }
+                    </div>
 
                   </div>
-
-                </>
-              ) : (
+                )
+              } else {
                 <h1>Timer ended</h1>
-              )
-            ) : (
-              <h1>Click to start</h1>
-            )
-          }
+              }
+            })
 
-        </div>
+          ) : (
+            <h1>Click to start</h1>
+          )
+        }
+
         {
           showCurrentDate && (
             <div id="nowDisplay" className='relative transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-gray-200 flex justify-center items-center'>

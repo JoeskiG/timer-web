@@ -33,7 +33,7 @@ export class Timer {
         } else {
             const now = new Date();
 
-            this._endTime = now.getTime() + duration
+            this._endTime = now.getTime() + (duration ?? 600000)
         }
 
 

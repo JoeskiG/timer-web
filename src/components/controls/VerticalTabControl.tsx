@@ -24,8 +24,8 @@ function VerticalTabControl({ tabs }: IVerticalTabControl): JSX.Element {
             <div className="flex flex-col gap-2 bg-gray-200 rounded-lg p-2">
                 {
                     tabs.length > 0 && (
-                        tabs.map(tab => (
-                            <button onClick={() => handleChangeTab(tab)} className={`verticalTab ${tab == selectedTab ? "verticalTabSelected" : ""}`}>
+                        tabs.map((tab: ITab, i: number) => (
+                            <button key={i} onClick={() => handleChangeTab(tab)} className={`verticalTab ${tab == selectedTab ? "verticalTabSelected" : ""}`}>
                                 {tab?.title}
                             </button>
                         ))
@@ -33,7 +33,7 @@ function VerticalTabControl({ tabs }: IVerticalTabControl): JSX.Element {
                 }
             </div>
 
-            <div className={`w-full flex rounded-lg bg-gray-100 ${selectedTab?.useDefaultPadding === true ? "p-4" : (typeof selectedTab?.useDefaultPadding === 'undefined' ? "p-4" : "")}`}>
+            <div className={`w-full overflow-x-auto overflow-y-auto flex rounded-lg bg-gray-100 ${selectedTab?.useDefaultPadding === true ? "p-4" : (typeof selectedTab?.useDefaultPadding === 'undefined' ? "p-4" : "")}`}>
                 {
                     selectedTab?.component
                 }

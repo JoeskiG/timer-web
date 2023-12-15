@@ -1,7 +1,6 @@
 import { useGlobalContext } from "../../contexts/useGlobalContext"
 import { BACKGROUND_MODES } from "../../util/constants"
 import BackgroundSettingsModal from "../modals/BackgroundSettingsModal"
-import CreateCountdownModal from "../modals/CreateCountdownModal"
 
 interface IBackgroundModeButton {
     text: string,
@@ -21,12 +20,6 @@ function SettingsMenu(): JSX.Element {
         showCurrentDate: boolean,
         toggleShowCurrentDate: () => boolean
     
-    }
-
-    const handleClickCreate = () => {
-        setModal(1, (
-            <CreateCountdownModal id={1} />
-        ))
     }
 
     const handleClickBackgroundMode = (mode: BACKGROUND_MODES) => {

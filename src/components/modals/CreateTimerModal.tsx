@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useTimerContext } from "../../contexts/useTimerContext"
-import { CONSTANTS, CONTROL_TYPES } from "../../util/constants"
+import { CONTROL_TYPES } from "../../util/constants"
 import IncrementControl from "./../controls/IncrementControl"
 import BaseModal from "./../templates/BaseModal"
-import { IMonthData, getMonthData } from "../../util/util"
 import { useGlobalContext } from "../../contexts/useGlobalContext"
 import { Timer } from "../../util/timer"
 
