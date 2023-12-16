@@ -103,17 +103,17 @@ interface CityTime {
 }
 
 export function getCurrentTime(city: string): CityTime {
-  const options: Intl.DateTimeFormatOptions = {
-    timeZone: city,
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
+  // const options: Intl.DateTimeFormatOptions = {
+  //   timeZone: city,
+  //   hour: 'numeric',
+  //   minute: 'numeric',
+  //   second: 'numeric',
+  //   year: 'numeric',
+  //   month: 'long',
+  //   day: 'numeric',
+  // };
 
-  const currentTime = new Date().toLocaleString('en-US', options);
+  //const currentTime = new Date().toLocaleString('en-US', options);
 
   const date2 = new Date().toLocaleDateString('en-US', { timeZone: city });
   const date = new Date(date2)

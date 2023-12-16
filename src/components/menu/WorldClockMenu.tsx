@@ -15,12 +15,12 @@ import { useTimerContext } from "../../contexts/useTimerContext";
 function WorldClockMenu(): JSX.Element {
     const { addWorldClock, worldClocks } = useTimerContext() as { addWorldClock: (item: WorldClock) => void, worldClocks: WorldClock[] }
 
-    const [selectedCountry, setSelectedCountry] = useState(null);
+    const [selectedCountry, setSelectedCountry] = useState<any>(null);
     const [selectedCountryCities, setSelectedCountryCities] = useState<CityData[]>([])
 
     const handleCityClick = (country: any) => {
         const cities = cityTimezones.findFromCityStateProvince(country.properties.name)
-        const newCities = []
+        const newCities: CityData[] = []
         for (var city of cities) {
             const found = newCities.find(obj => obj.timezone === city.timezone)
             if (!found) {

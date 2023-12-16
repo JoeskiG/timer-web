@@ -11,14 +11,14 @@ import { WorldClock } from './util/worldClock';
 function App() {
   const { countdowns, worldClocks } = useTimerContext() as { countdowns: Countdown[], worldClocks: WorldClock[] }
   const {
-    setModal,
+    //setModal,
     modal0,
     modal1,
     backgroundMode,
     backgroundSettings,
     showCurrentDate
   } = useGlobalContext() as {
-    setModal: (id: number, element: JSX.Element) => void,
+    //setModal: (id: number, element: JSX.Element) => void,
     modal0: JSX.Element,
     modal1: JSX.Element,
     backgroundMode: BACKGROUND_MODES,
