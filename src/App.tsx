@@ -130,21 +130,27 @@ function App() {
 
             {
               showCurrentDate && (
-                <div id="nowDisplay" className='relative transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-gray-200 flex justify-center items-center'>
+                <div className='clockDisplay relative transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-gray-200 flex justify-center items-center'>
                   <h2>{formatDate(new Date().toString())}</h2>
 
                 </div>
               )
             }
 
-            {
-              worldClocks.length > 0 && (
-                <div id="nowDisplay" className='relative transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-gray-200 flex justify-center items-center'>
-                  <h2>{zeroPad(worldClocks[0].hours, 2)}:{zeroPad(worldClocks[0].minutes, 2)}:{zeroPad(worldClocks[0].seconds, 2)} in {worldClocks[0].timezoneText}</h2>
+            <div className='flex flex-row gap-8'>
+              {
+                worldClocks.length > 0 && (
+                  worldClocks.map((wc: WorldClock, i: number) => (
+                    <div key={i} className='clockDisplay relative transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-gray-200 flex justify-center items-center'>
+                      <h2>{zeroPad(wc.hours, 2)}:{zeroPad(wc.minutes, 2)}:{zeroPad(wc.seconds, 2)} in {wc.timezoneText}</h2>
 
-                </div>
-              )
-            }
+                    </div>
+                  ))
+
+                )
+              }
+            </div>
+
 
             <div className='absolute transition-all top-0 right-0 flex items-center justify-center z-20 opacity-0 hover:opacity-100 p-4'>
               <button onClick={handleClickTimer} className='p-4 bg-white rounded-full shadow-2xl'><FaGear /></button>

@@ -152,10 +152,10 @@ h1 {
   @apply bg-gray-300 rounded-full font-bold;
 }
 
-#nowDisplay h2 {
+.clockDisplay h2 {
   @apply text-4xl;
 }
 
-#nowDisplay {
+.clockDisplay {
   @apply p-8;
 }

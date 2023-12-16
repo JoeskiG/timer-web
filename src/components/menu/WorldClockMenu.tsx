@@ -10,10 +10,13 @@ import { getTextAfterChar, zeroPad } from "../../util/util";
 import { FaPlus, FaRegTrashCan } from "react-icons/fa6";
 import { WorldClock } from "../../util/worldClock";
 import { useTimerContext } from "../../contexts/useTimerContext";
+import { useGlobalContext } from "../../contexts/useGlobalContext";
+import ConfirmDialog from "../templates/ConfirmDialog";
 
 
 function WorldClockMenu(): JSX.Element {
-    const { addWorldClock, worldClocks } = useTimerContext() as { addWorldClock: (item: WorldClock) => void, worldClocks: WorldClock[] }
+    const { setModal } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void }
+    const { deleteWorldClock, addWorldClock, worldClocks } = useTimerContext() as { deleteWorldClock: (id: string) => void, addWorldClock: (item: WorldClock) => void, worldClocks: WorldClock[] }
 
     const [selectedCountry, setSelectedCountry] = useState<any>(null);
     const [selectedCountryCities, setSelectedCountryCities] = useState<CityData[]>([])
@@ -37,6 +40,12 @@ function WorldClockMenu(): JSX.Element {
     const handleClickCreate = (city: CityData) => {
         const newClock = new WorldClock(city.timezone)
         addWorldClock(newClock)
+    }
+
+    function handleClickDelete(wc: WorldClock) {
+        setModal(0, (
+            <ConfirmDialog id={0} text="Are you sure you want to delete this world clock?" title="Delete World Clock" onConfirm={() => deleteWorldClock(wc.id)} />
+        ))
     }
 
     return (
@@ -106,7 +115,7 @@ function WorldClockMenu(): JSX.Element {
 
                                 <p>{wc.dateObj.toDateString()}</p>
                                 <div className="flex items-center justify-center">
-                                    <button className="button_circle !bg-red-400" ><FaRegTrashCan /></button>
+                                    <button onClick={() => handleClickDelete(wc)} className="button_circle !bg-red-400" ><FaRegTrashCan /></button>
                                 </div>
                             </div>
                         </div>

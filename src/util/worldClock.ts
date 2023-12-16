@@ -19,11 +19,11 @@ export class WorldClock {
         timezone: string,
         id?: string | null,
     ) {
-        
+
         this._id = id || makeID(10);
 
         this._timezone = timezone
-        this._timezoneText = getTextAfterChar(timezone, '/') ?? timezone
+        this._timezoneText = (getTextAfterChar(timezone, '/') ?? timezone).replace('_', ' ')
 
         const currentTime = getCurrentTime(this._timezone)
         this._dateObj = currentTime.date
@@ -86,9 +86,9 @@ export class WorldClock {
 
         this._dateObj = currentTime.date
     }
-    
 
-    
-      
+
+
+
 }
 

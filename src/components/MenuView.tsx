@@ -17,7 +17,7 @@ function MenuView({ onClose }: IMenuView): JSX.Element {
 
     return (
         <>
-            <div className="flex h-full flex-col justify-between items-center gap-4">
+            <div className="flex h-full flex-col justify-between items-center gap-4 bg-white">
                 {/* HEADING */}
                 <div className="p-4 w-full gap-16 flex flex-row justify-between items-center">
                     <h1 className="!text-4xl">Menu</h1>
