@@ -1,6 +1,8 @@
 import { FaRegTrashCan } from "react-icons/fa6"
 import { useTimerContext } from "../contexts/useTimerContext"
 import { Countdown } from "../util/countdown"
+import { useGlobalContext } from "../contexts/useGlobalContext"
+import ConfirmDialog from "./templates/ConfirmDialog"
 
 interface ICountdownContainer {
     countdown: Countdown
@@ -8,10 +10,13 @@ interface ICountdownContainer {
 
 
 function CountdownContainer({ countdown }: ICountdownContainer): JSX.Element {
+    const { setModal } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void }
     const { deleteCountdown } = useTimerContext() as { deleteCountdown: (id: string) => void }
 
     function handleClickDelete() {
-        deleteCountdown(countdown.id)
+        setModal(0, (
+            <ConfirmDialog id={0} text="Are you sure you want to delete this countdown?" title="Delete Countdown" onConfirm={() => deleteCountdown(countdown.id)} />
+        ))
     }
 
     return (
@@ -70,10 +75,13 @@ function CountdownContainer({ countdown }: ICountdownContainer): JSX.Element {
                 </div>
 
             </div>
-            <p>{countdown.dateObj.toLocaleString(undefined, { hour12: false })}</p>
-            <div className="flex items-center justify-center">
-                <button onClick={handleClickDelete} className="button_circle !bg-red-400" ><FaRegTrashCan /></button>
+            <div className="flex flex-row gap-8 items-center">
+                <p>{countdown.dateObj.toLocaleString(undefined, { hour12: false })}</p>
+                <div className="flex items-center justify-center">
+                    <button onClick={handleClickDelete} className="button_circle !bg-red-400" ><FaRegTrashCan /></button>
+                </div>
             </div>
+
         </div>
     )
 }

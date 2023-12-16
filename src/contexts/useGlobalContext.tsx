@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { BACKGROUND_MODES, CONSTANTS } from "../util/constants";
 import { getSavedBackground, saveBackground } from "../util/util";
 
@@ -20,10 +20,30 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
     const [modal1, setModal1] = useState<JSX.Element | null>(null);
     const [modal2, setModal2] = useState<JSX.Element | null>(null);
 
+    const [isMobile, setIsMobile] = useState<boolean>(false)
+
     const [backgroundMode, setBackgroundMode] = useState<BACKGROUND_MODES>(i_savedBackground ? (i_savedBackground.mode) : CONSTANTS.defaults.background.mode)
     const [backgroundSettings, setBackgroundSettings] = useState<any>(i_savedBackground ? (i_savedBackground) : CONSTANTS.defaults.background)
 
     const [showCurrentDate, setShowCurrentDate] = useState<boolean>(i_showCurrentDateParsed !== null ? i_showCurrentDateParsed : CONSTANTS.defaults.settings.showCurrentDate)
+
+    const handleResize = () => {
+        if (window.innerWidth < 1024) {
+            setIsMobile(true)
+        } else {
+            setIsMobile(false)
+        }
+    }
+
+    useEffect(() => {
+        handleResize()
+        window.addEventListener("resize", handleResize)
+
+
+        return () => {
+            window.removeEventListener("resize", handleResize)
+        }
+    }, [])
 
     function setModal(id: number, element: JSX.Element) {
         if (id === 0) {
@@ -69,6 +89,8 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
 
 
     const value = {
+        isMobile,
+        
         modal0,
         modal1,
         modal2,

@@ -2,6 +2,7 @@ import { ReactNode, createContext, useContext, useEffect, useState } from "react
 import { Countdown } from "../util/countdown";
 import { makeID } from "../util/util";
 import { Timer } from "../util/timer";
+import { WorldClock } from "../util/worldClock";
 
 const TimerContext = createContext<any>({})
 
@@ -14,11 +15,17 @@ interface ICountdown {
     id: string
 }
 
+interface IWorldClock {
+    timezone: string,
+    id: string
+}
+
 
 export function TimerProvider({ children }: TimerProviderProps) {
 
     const [countdowns, setCountdowns] = useState<Countdown[]>([])
     const [timers, setTimers] = useState<Timer[]>([])
+    const [worldClocks, setWorldClocks] = useState<WorldClock[]>([])
 
     function addCountdown(item: Countdown) {
         setCountdowns(prevState => {
@@ -38,10 +45,20 @@ export function TimerProvider({ children }: TimerProviderProps) {
         saveTimer(item)
     }
 
+    function addWorldClock(item: WorldClock) {
+        setWorldClocks(prevState => {
+            const newState = [...prevState, item]
+            return newState
+        })
+
+        saveWorldClock(item)
+    }
+
     useEffect(() => {
 
         loadSavedTimers()
         loadSavedCountdowns()
+        loadSavedWorldClocks()
 
         const intervalId = setInterval(() => {
             // Update the state based on the current state
@@ -83,6 +100,21 @@ export function TimerProvider({ children }: TimerProviderProps) {
         }
     }
 
+    function loadSavedWorldClocks() {
+        var savedTimers = localStorage.getItem('savedWorldClocks')
+
+        if (savedTimers) {
+            var savedTimersParsed: IWorldClock[] = JSON.parse(savedTimers)
+            const timersToAdd: WorldClock[] = []
+            for (var cd of savedTimersParsed) {
+                const newTimer: WorldClock = new WorldClock(cd.timezone, cd.id)
+                timersToAdd.push(newTimer)
+            }
+
+            setWorldClocks(timersToAdd)
+        }
+    }
+
     function saveCountdown(item: Countdown) {
         var savedCountdowns = localStorage.getItem('savedCountdowns')
 
@@ -103,6 +135,17 @@ export function TimerProvider({ children }: TimerProviderProps) {
             id: makeID(10)
         })
         localStorage.setItem('savedTimers', JSON.stringify(savedTimersParsed))
+    }
+
+    function saveWorldClock(item: WorldClock) {
+        var savedTimers = localStorage.getItem('savedWorldClocks')
+
+        var savedTimersParsed: IWorldClock[] = savedTimers ? JSON.parse(savedTimers) : []
+        savedTimersParsed.push({
+            timezone: item.timezone,
+            id: makeID(10)
+        })
+        localStorage.setItem('savedWorldClocks', JSON.stringify(savedTimersParsed))
     }
 
     function deleteCountdown(id: string) {
@@ -156,6 +199,31 @@ export function TimerProvider({ children }: TimerProviderProps) {
         }
     }
 
+    function deleteWorldClock(id: string) {
+        setWorldClocks(prevState => {
+            const newState = [...prevState]
+            const deleteIndex = newState.findIndex(tmr => tmr.id === id)
+            newState.splice(deleteIndex, 1)
+            return newState
+        })
+
+        var savedTimers = localStorage.getItem('savedWorldClocks')
+
+        if (!savedTimers) {
+            return
+        }
+
+        var savedTimersParsed: IWorldClock[] = JSON.parse(savedTimers)
+
+        const foundTimerIndex = savedTimersParsed.findIndex(tmr => tmr.id === id)
+        if (typeof foundTimerIndex !== 'undefined') {
+            savedTimersParsed.splice(foundTimerIndex, 1)
+            
+
+            localStorage.setItem('savedWorldClocks', JSON.stringify(savedTimersParsed))
+        }
+    }
+
 
 
 
@@ -169,7 +237,12 @@ export function TimerProvider({ children }: TimerProviderProps) {
         setTimers,
         addTimer,
         deleteTimer,
-        saveTimer
+        saveTimer,
+
+        worldClocks,
+        setWorldClocks,
+        addWorldClock,
+        deleteWorldClock
     }
 
     return (

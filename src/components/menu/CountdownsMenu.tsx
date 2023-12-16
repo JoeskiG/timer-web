@@ -10,8 +10,8 @@ function CountdownMenu(): JSX.Element {
     const { countdowns } = useTimerContext()
 
     const handleClickCreate = () => {
-        setModal(1, (
-            <CreateCountdownModal id={1} />
+        setModal(0, (
+            <CreateCountdownModal id={0} />
         ))
     }
 

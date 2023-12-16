@@ -1,6 +1,8 @@
 import { FaRegTrashCan } from "react-icons/fa6"
 import { useTimerContext } from "../contexts/useTimerContext"
 import { Timer } from "../util/timer"
+import ConfirmDialog from "./templates/ConfirmDialog"
+import { useGlobalContext } from "../contexts/useGlobalContext"
 
 interface ITimerCContainer {
     timer: Timer
@@ -8,10 +10,13 @@ interface ITimerCContainer {
 
 
 function TimerContainer({ timer }: ITimerCContainer): JSX.Element {
+    const { setModal } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void }
     const { deleteTimer } = useTimerContext() as { deleteTimer: (id: string) => void }
 
     function handleClickDelete() {
-        deleteTimer(timer.id)
+        setModal(0, (
+            <ConfirmDialog id={0} text="Are you sure you want to delete this timer?" title="Delete Timer" onConfirm={() => deleteTimer(timer.id)} />
+        ))
     }
 
     return (
@@ -81,10 +86,13 @@ function TimerContainer({ timer }: ITimerCContainer): JSX.Element {
                 </div>
 
             </div>
-            <p>{timer.dateObj.toLocaleString(undefined, { hour12: false })}</p>
-            <div className="flex items-center justify-center">
-                <button onClick={handleClickDelete} className="button_circle !bg-red-400" ><FaRegTrashCan /></button>
+            <div className="flex flex-row gap-8 items-center">
+                <p>{timer.dateObj.toLocaleString(undefined, { hour12: false })}</p>
+                <div className="flex items-center justify-center">
+                    <button onClick={handleClickDelete} className="button_circle !bg-red-400" ><FaRegTrashCan /></button>
+                </div>
             </div>
+
         </div>
     )
 }

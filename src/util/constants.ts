@@ -9,6 +9,7 @@ export enum BACKGROUND_MODES {
     gradient
 }
 
+
 export const CONSTANTS = {
     months: [
         "January", "February", "March", "April", "May", "June",

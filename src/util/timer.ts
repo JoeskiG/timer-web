@@ -26,7 +26,7 @@ export class Timer {
 
         this._id = id || makeID(10);
 
-        
+
 
         if (typeof endTime === 'number') {
             this._endTime = endTime
@@ -48,7 +48,9 @@ export class Timer {
 
         this._interval = null
 
+        this.tickInterval()
         this.startInterval()
+
     }
 
     public get id() {
@@ -88,29 +90,29 @@ export class Timer {
     }
 
     public startInterval() {
-        this._interval = setInterval(() => {
+        this._interval = setInterval(() => this.tickInterval(), 1000)
+    }
 
-            const now = new Date().getTime()
+    private tickInterval() {
+        const now = new Date().getTime()
 
-            const distance = this._endTime - now;
+        const distance = this._endTime - now;
 
-            if (distance < 0) {
-                this._isExpired = true
-            } else if (this._isExpired === true) {
-                this._isExpired = false
-            }
+        if (distance < 0) {
+            this._isExpired = true
+        } else if (this._isExpired === true) {
+            this._isExpired = false
+        }
 
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            this._days = days
-            this._hours = hours
-            this._minutes = minutes
-            this._seconds = seconds
-
-        }, 1000)
+        this._days = days
+        this._hours = hours
+        this._minutes = minutes
+        this._seconds = seconds
     }
 }

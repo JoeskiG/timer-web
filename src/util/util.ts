@@ -88,7 +88,60 @@ export function getSavedBackground() {
 }
 
 export function saveBackground(background: any) {
-  localStorage.setItem('savedBackground', JSON.stringify(background))  
+  localStorage.setItem('savedBackground', JSON.stringify(background))
 
 
+}
+
+
+interface CityTime {
+  city: string;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  date: Date;
+}
+
+export function getCurrentTime(city: string): CityTime {
+  const options: Intl.DateTimeFormatOptions = {
+    timeZone: city,
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
+  const currentTime = new Date().toLocaleString('en-US', options);
+
+  const date2 = new Date().toLocaleDateString('en-US', { timeZone: city });
+  const date = new Date(date2)
+
+  const time = new Date().toLocaleTimeString('en-US', { timeZone: city, hour12: false });
+
+  const [hours, minutes, seconds] = time.split(':').map(Number);
+
+  return {
+    city,
+    hours,
+    minutes,
+    seconds,
+    date,
+  };
+}
+
+export function getTextAfterChar(inputString: string, char: string): string | null {
+  if (!inputString) {
+    return null
+  }
+  const lastSlashIndex = inputString.lastIndexOf(char);
+  if (lastSlashIndex !== -1) {
+    return inputString.substring(lastSlashIndex + 1);
+  }
+  return null; // Return null if there is no slash in the string
+}
+
+export function zeroPad(num: number, places: number): string {
+  return String(num).padStart(places, '0')
 }

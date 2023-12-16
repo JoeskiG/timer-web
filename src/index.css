@@ -124,7 +124,7 @@ h1 {
 }
 
 .button_2 {
-  @apply text-2xl shadow-md px-6 py-2 rounded-full bg-green-400;
+  @apply transition-all text-2xl hover:brightness-90 shadow-md px-6 py-2 rounded-full bg-green-400;
 }
 
 .button_circle {

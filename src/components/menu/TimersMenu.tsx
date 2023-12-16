@@ -10,8 +10,8 @@ function TimersMenu(): JSX.Element {
     const { timers } = useTimerContext()
 
     const handleClickCreate = () => {
-        setModal(1, (
-            <CreateTimerModal id={1} />
+        setModal(0, (
+            <CreateTimerModal id={0} />
         ))
     }
 
