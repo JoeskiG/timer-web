@@ -46,6 +46,10 @@ export function TimerProvider({ children }: TimerProviderProps) {
     }
 
     function addWorldClock(item: WorldClock) {
+        const existingWorldClock = worldClocks.find((clock: WorldClock) => clock.timezone === item.timezone)
+        if (existingWorldClock) {
+            return
+        }
         setWorldClocks(prevState => {
             const newState = [...prevState, item]
             return newState

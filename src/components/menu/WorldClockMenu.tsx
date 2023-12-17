@@ -12,14 +12,22 @@ import { WorldClock } from "../../util/worldClock";
 import { useTimerContext } from "../../contexts/useTimerContext";
 import { useGlobalContext } from "../../contexts/useGlobalContext";
 import ConfirmDialog from "../templates/ConfirmDialog";
+import { IMousePosition, useMousePositionContext } from "../../contexts/useMousePositionContext";
 
 
 function WorldClockMenu(): JSX.Element {
     const { setModal } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void }
     const { deleteWorldClock, addWorldClock, worldClocks } = useTimerContext() as { deleteWorldClock: (id: string) => void, addWorldClock: (item: WorldClock) => void, worldClocks: WorldClock[] }
+    const { mousePosition } = useMousePositionContext() as { mousePosition: IMousePosition }
+
+    const [page, setPage] = useState<string>('saved')
+
+
 
     const [selectedCountry, setSelectedCountry] = useState<any>(null);
     const [selectedCountryCities, setSelectedCountryCities] = useState<CityData[]>([])
+
+    const [hoverCountry, setHoverCountry] = useState<any>(null)
 
     const handleCityClick = (country: any) => {
         const cities = cityTimezones.findFromCityStateProvince(country.properties.name)
@@ -27,7 +35,15 @@ function WorldClockMenu(): JSX.Element {
         for (var city of cities) {
             const found = newCities.find(obj => obj.timezone === city.timezone)
             if (!found) {
-                newCities.push(city)
+                if (city.timezone) {
+                    // const worldClockExists = worldClocks.find((clock: WorldClock) => clock.timezone === city.timezone)
+                    // if (!worldClockExists) {
+                    city.timezone = city.timezone.replace('_', ' ')
+                    newCities.push(city)
+                    //}
+
+                }
+
             }
 
         }
@@ -36,10 +52,15 @@ function WorldClockMenu(): JSX.Element {
         setSelectedCountry(country);
     };
 
+    function handleClickNew() {
+        setPage('new')
+    }
+
 
     const handleClickCreate = (city: CityData) => {
         const newClock = new WorldClock(city.timezone)
         addWorldClock(newClock)
+        setPage('saved')
     }
 
     function handleClickDelete(wc: WorldClock) {
@@ -48,82 +69,113 @@ function WorldClockMenu(): JSX.Element {
         ))
     }
 
+    function handleMouseEnterCountry(geo: any) {
+        setHoverCountry(geo)
+    }
+
+    function handleMouseLeaveCountry() {
+        setHoverCountry(null)
+    }
+
     return (
-        <div className="relative w-full flex flex-col gap-2">
-            <div className="flex flex-row gap-4 w-full justify-between">
-                <div className="w-2/3 overflow-hidden">
-                    <ComposableMap
+        <>
+            {
+                hoverCountry && (
+                    <div className="absolute z-20 rounded-full p-2 bg-white" style={{
+                        top: `${mousePosition.y - 50}px`,
+                        left: `${mousePosition.x - 25}px`
+                    }}>
+                        <p>{hoverCountry.properties.name}</p>
+                    </div>
+                )
+            }
+            <div className="relative w-full flex flex-col gap-2">
 
-                    >
-                        <ZoomableGroup center={[0, 0]} minZoom={0.5} zoom={0.6}>
-                            <Geographies geography="world-110m.json">
-                                {({ geographies }) =>
-                                    geographies.map((geo) => (
-                                        <Geography
-                                            key={geo.rsmKey}
-                                            geography={geo}
-                                            onClick={() => handleCityClick(geo)}
-                                            style={{
-                                                default: {
-                                                    fill: geo.id === selectedCountry?.id ? 'var(--secondaryColor)' : '#ECEFF1',
-                                                    outline: 'none',
-                                                },
-                                                hover: {
-                                                    fill: geo.id === selectedCountry?.id ? 'var(--secondaryColor)' : '#CFD8DC',
-                                                    outline: 'none',
-                                                },
-                                                pressed: {
-                                                    fill: '#B0BEC5',
-                                                    outline: 'none',
-                                                },
-                                            }}
-                                        />
-                                    ))
+                {
+                    page === 'new' ? (
+                        <>
+                            <div className="w-full h-full">
+                                <ComposableMap style={{ maxHeight: "100%", width: "100%" }}>
+                                    <ZoomableGroup center={[0, 0]} minZoom={1} zoom={1}>
+                                        <Geographies geography="world-110m.json">
+                                            {({ geographies }) =>
+                                                geographies.map((geo) => (
+                                                    <Geography
+                                                        key={geo.rsmKey}
+                                                        geography={geo}
+                                                        onClick={() => handleCityClick(geo)}
+                                                        onMouseEnter={() => handleMouseEnterCountry(geo)}
+                                                        onMouseLeave={handleMouseLeaveCountry}
+                                                        style={{
+                                                            default: {
+                                                                fill: geo.id === selectedCountry?.id ? 'var(--secondaryColor)' : '#d8d8d8',
+                                                                outline: 'none',
+                                                            },
+                                                            hover: {
+                                                                fill: geo.id === selectedCountry?.id ? 'var(--secondaryColor)' : 'var(--secondaryColorActive)',
+                                                                outline: 'none',
+                                                            },
+                                                            pressed: {
+                                                                fill: '#B0BEC5',
+                                                                outline: 'none',
+                                                            },
+                                                        }}
+                                                    />
+                                                ))
+                                            }
+                                        </Geographies>
+                                    </ZoomableGroup>
+                                </ComposableMap>
+                            </div>
+                            <div className="flex flex-col gap-2 w-1/3 overflow-y-auto absolute top-0 right-0">
+                                {
+                                    selectedCountryCities.length > 0 ? (
+                                        selectedCountryCities.map((city: CityData, i: number) => (
+                                            <div key={i} className="flex flex-row items-center justify-between transition-all bg-gray-200 rounded-full hover:shadow-md w-full p-2 pl-4">
+                                                <p>{getTextAfterChar(city.timezone, '/')}</p>
+                                                <div className="flex items-center justify-center">
+                                                    <button onClick={() => handleClickCreate(city)} className="button_circle !bg-[var(--primaryColor)]" ><FaPlus /></button>
+                                                </div>
+                                            </div>
+
+                                        ))
+                                    ) : (null)
                                 }
-                            </Geographies>
-                        </ZoomableGroup>
-                    </ComposableMap>
-                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="flex flex-col gap-2 w-full">
+                                {
+                                    worldClocks.length > 0 ? (
+                                        worldClocks.map((wc: WorldClock, i: number) => (
+                                            <div key={i} className="flex flex-row items-center justify-between transition-all bg-gray-200 rounded-full hover:shadow-md px-2 w-full">
+                                                <p className="px-4">{wc.timezoneText}</p>
+                                                <div className="flex flex-row gap-8 items-center">
+                                                    <p>{zeroPad(wc.hours, 2)}:{zeroPad(wc.minutes, 2)}:{zeroPad(wc.seconds, 2)}</p>
 
-                <div className="flex flex-col gap-2 w-1/3 overflow-y-auto">
-                    {
-                        selectedCountryCities.length > 0 ? (
-                            selectedCountryCities.map((city: CityData, i: number) => (
-                                <div key={i} className="flex flex-row items-center justify-between transition-all bg-gray-200 rounded-full hover:shadow-md w-full p-2 pl-4">
-                                    <p>{getTextAfterChar(city.timezone, '/')}</p>
-                                    <div className="flex items-center justify-center">
-                                        <button onClick={() => handleClickCreate(city)} className="button_circle !bg-[var(--primaryColor)]" ><FaPlus /></button>
-                                    </div>
-                                </div>
+                                                    <p>{wc.dateObj.toDateString()}</p>
+                                                    <div className="flex items-center justify-center">
+                                                        <button onClick={() => handleClickDelete(wc)} className="button_circle !bg-red-400" ><FaRegTrashCan /></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (null)
+                                }
+                            </div>
+                            <button className="button_2 absolute bottom-0 right-0 z-20" onClick={handleClickNew}>New</button>
+                        </>
+                    )
+                }
 
-                            ))
-                        ) : (null)
-                    }
-                </div>
+
+
 
             </div>
+        </>
 
 
-
-            {
-                worldClocks.length > 0 ? (
-                    worldClocks.map((wc: WorldClock, i: number) => (
-                        <div key={i} className="flex flex-row items-center justify-between transition-all bg-gray-200 rounded-full hover:shadow-md px-2 w-full">
-                            <p className="px-4">{wc.timezoneText}</p>
-                            <div className="flex flex-row gap-8 items-center">
-                                <p>{zeroPad(wc.hours, 2)}:{zeroPad(wc.minutes, 2)}:{zeroPad(wc.seconds, 2)}</p>
-
-                                <p>{wc.dateObj.toDateString()}</p>
-                                <div className="flex items-center justify-center">
-                                    <button onClick={() => handleClickDelete(wc)} className="button_circle !bg-red-400" ><FaRegTrashCan /></button>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                ) : (null)
-            }
-
-        </div>
     )
 
 

@@ -4,14 +4,18 @@ import App from './App.tsx'
 import './index.css'
 import { TimerProvider } from './contexts/useTimerContext.tsx'
 import { GlobalProvider } from './contexts/useGlobalContext.tsx'
+import { MousePositionProvider } from './contexts/useMousePositionContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
-    <GlobalProvider>
+  <GlobalProvider>
+    <MousePositionProvider>
       <TimerProvider>
         <App />
       </TimerProvider>
-    </GlobalProvider>
+
+    </MousePositionProvider>
+  </GlobalProvider>
 
 
   // </React.StrictMode>,
