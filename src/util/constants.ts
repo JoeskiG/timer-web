@@ -20,9 +20,9 @@ export const CONSTANTS = {
         background: {
             mode: BACKGROUND_MODES.gradient,
             colors: {
-                color1: "#14C2CC",
-                color2: "#fc3ee6",
-                color3: "#FF00A0"
+                color1: "#00f2ff",
+                color2: "#a600ff",
+                color3: "#ff00a2"
             },
             animationDuration: 10000 //ms
         },
