@@ -15,6 +15,8 @@ export class Timer {
 
     private _interval?: NodeJS.Timeout | null
 
+    private _timeRemaining: number
+
     constructor(
         duration?: number | null,
         endTime?: number | null,
@@ -27,13 +29,14 @@ export class Timer {
         this._id = id || makeID(10);
 
 
-
+        const now = new Date();
         if (typeof endTime === 'number') {
             this._endTime = endTime
-        } else {
-            const now = new Date();
 
+            this._timeRemaining = now.getTime() - (duration ?? 600000)
+        } else {
             this._endTime = now.getTime() + (duration ?? 600000)
+            this._timeRemaining = duration ?? 600000
         }
 
 
@@ -47,6 +50,8 @@ export class Timer {
         this._isExpired = false
 
         this._interval = null
+
+        
 
         this.tickInterval()
         this.startInterval()
@@ -89,6 +94,10 @@ export class Timer {
         return this._interval
     }
 
+    public get timeRemaining() {
+        return this._timeRemaining
+    }
+
     public startInterval() {
         this._interval = setInterval(() => this.tickInterval(), 1000)
     }
@@ -97,6 +106,7 @@ export class Timer {
         const now = new Date().getTime()
 
         const distance = this._endTime - now;
+        this._timeRemaining = distance
 
         if (distance < 0) {
             this._isExpired = true

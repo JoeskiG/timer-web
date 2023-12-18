@@ -20,7 +20,7 @@ function CountdownContainer({ countdown }: ICountdownContainer): JSX.Element {
     }
 
     return (
-        <div className="flex flex-row items-center justify-between transition-all bg-gray-200 rounded-full hover:shadow-md px-2 w-full">
+        <div className="flex flex-row items-center justify-between transition-all bg-gray-200 rounded-full hover:shadow-md px-2 py-1 w-full">
             {/* <div className="flex flex-row justify-between">
                 <p>Countdown 1</p>
             </div> */}
@@ -29,7 +29,7 @@ function CountdownContainer({ countdown }: ICountdownContainer): JSX.Element {
                     {
                         countdown.days > 0 && (
                             <>
-                                <div className='p-4'>
+                                <div className='px-4'>
                                     <p>{countdown.days} d</p>
                                 </div>
                                 <p>:</p>
@@ -41,7 +41,7 @@ function CountdownContainer({ countdown }: ICountdownContainer): JSX.Element {
                     {
                         countdown.hours >= 0 && (
                             <>
-                                <div className='p-4'>
+                                <div className='px-4'>
                                     <p>{countdown.hours} h</p>
                                 </div>
                                 <p>:</p>
@@ -52,7 +52,7 @@ function CountdownContainer({ countdown }: ICountdownContainer): JSX.Element {
                     {
                         countdown.minutes >= 0 && (
                             <>
-                                <div className='p-4'>
+                                <div className='px-4'>
                                     <p>{countdown.minutes} m</p>
                                 </div>
                                 <p>:</p>
@@ -63,7 +63,7 @@ function CountdownContainer({ countdown }: ICountdownContainer): JSX.Element {
                     {
                         countdown.seconds >= 0 && (
                             <>
-                                <div className='p-4'>
+                                <div className='px-4'>
                                     <p>{countdown.seconds} s</p>
                                 </div>
                             </>

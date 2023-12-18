@@ -37,12 +37,12 @@ function MenuView({ onClose }: IMenuView): JSX.Element {
                                 },
                                 {
                                     title: "Timers",
-                                    disabled: false,
+                                    disabled: true,
                                     component: <TimersMenu />
                                 },
                                 {
                                     title: "Stopwatches",
-                                    disabled: false,
+                                    disabled: true,
                                     component: <StopwatchesMenu />
                                 },
                                 {

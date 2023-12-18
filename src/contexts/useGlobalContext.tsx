@@ -27,6 +27,8 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
 
     const [showCurrentDate, setShowCurrentDate] = useState<boolean>(i_showCurrentDateParsed !== null ? i_showCurrentDateParsed : CONSTANTS.defaults.settings.showCurrentDate)
 
+    const [globalBottomPadding, setGlobalBottomPadding] = useState<number | null>(null)
+
     const handleResize = () => {
         if (window.innerWidth < 1024) {
             setIsMobile(true)
@@ -90,6 +92,9 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
 
     const value = {
         isMobile,
+
+        globalBottomPadding,
+        setGlobalBottomPadding,
         
         modal0,
         modal1,

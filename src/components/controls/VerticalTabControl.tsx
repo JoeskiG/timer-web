@@ -15,11 +15,12 @@ interface IVerticalTabControl {
 function VerticalTabControl({ tabs }: IVerticalTabControl): JSX.Element {
     const { isMobile } = useGlobalContext() as { isMobile: boolean }
 
-    const [selectedTab, setSelectedTab] = useState<ITab | null>(tabs[0] || null)
+    const [selectedTab, setSelectedTab] = useState<ITab | null>(isMobile ? null : (tabs[0] || null))
 
     const handleChangeTab = (tab: ITab) => {
         setSelectedTab(tab)
     }
+
 
     if (isMobile) {
         if (!selectedTab) {
@@ -29,7 +30,7 @@ function VerticalTabControl({ tabs }: IVerticalTabControl): JSX.Element {
                         {
                             tabs.length > 0 && (
                                 tabs.map((tab: ITab, i: number) => (
-                                    <button key={i} onClick={() => handleChangeTab(tab)} className="verticalTab">
+                                    <button disabled={tab.disabled} key={i} onClick={() => handleChangeTab(tab)} className="verticalTab">
                                         {tab?.title}
                                     </button>
                                 ))
@@ -58,7 +59,7 @@ function VerticalTabControl({ tabs }: IVerticalTabControl): JSX.Element {
                 {
                     tabs.length > 0 && (
                         tabs.map((tab: ITab, i: number) => (
-                            <button key={i} onClick={() => handleChangeTab(tab)} className={`verticalTab ${tab.title == selectedTab?.title ? "verticalTabSelected" : ""}`}>
+                            <button disabled={tab.disabled} key={i} onClick={() => handleChangeTab(tab)} className={`verticalTab ${tab.title == selectedTab?.title ? "verticalTabSelected" : ""}`}>
                                 {tab?.title}
                             </button>
                         ))

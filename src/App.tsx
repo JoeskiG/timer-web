@@ -16,7 +16,8 @@ function App() {
     modal1,
     backgroundMode,
     backgroundSettings,
-    showCurrentDate
+    showCurrentDate,
+    globalBottomPadding
   } = useGlobalContext() as {
     //setModal: (id: number, element: JSX.Element) => void,
     modal0: JSX.Element,
@@ -24,7 +25,7 @@ function App() {
     backgroundMode: BACKGROUND_MODES,
     backgroundSettings: any,
     showCurrentDate: boolean,
-
+    globalBottomPadding: number | null
   }
 
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
@@ -51,21 +52,23 @@ function App() {
               backgroundMode === BACKGROUND_MODES.gradient ? (
                 {
                   background: `linear-gradient(-45deg, ${backgroundSettings.colors.color1}, ${backgroundSettings.colors.color2}, ${backgroundSettings.colors.color3})`,
-                  animation: `gradient ${backgroundSettings.animationDuration}ms ease infinite`
+                  animation: `gradient ${backgroundSettings.animationDuration}ms ease infinite`,
+                  paddingBottom: `${globalBottomPadding}px`
                 }
               ) : backgroundMode === BACKGROUND_MODES.solid ? (
                 {
-                  backgroundColor: backgroundSettings.colors.color1
+                  backgroundColor: backgroundSettings.colors.color1,
+                  paddingBottom: `${globalBottomPadding}px`
                 }
               ) : (undefined)
             }
             className='flex gap-16 overflow-hidden flex-col p-4 justify-center h-full w-full transition-all items-center'>
             {
-              countdowns.length > 0 ? (
+              countdowns.length > 0 || worldClocks.length > 0 ? (
                 countdowns.map((countdown: Countdown, i: number) => {
                   if (!countdown.isExpired) {
                     return (
-                      <div key={i} onClick={handleClickTimer} id="timerMain" className='transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-white flex justify-center items-center'>
+                      <div key={i} onClick={handleClickTimer} id="timerMain" className='transition-all p-16 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-white flex justify-center items-center'>
                         <div className='z-10 h-full w-full flex gap-8 flex-row items-center justify-center'>
                           {
                             countdown.days > 0 && (
@@ -116,7 +119,7 @@ function App() {
                       </div>
                     )
                   } else {
-                    <h1>Timer ended</h1>
+                    <h1>Countdown ended</h1>
                   }
                 })
 

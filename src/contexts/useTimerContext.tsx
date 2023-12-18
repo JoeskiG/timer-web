@@ -58,6 +58,10 @@ export function TimerProvider({ children }: TimerProviderProps) {
         saveWorldClock(item)
     }
 
+    function worldClockExists(timezone: string): boolean {
+        return Boolean(worldClocks.find((wc: WorldClock) => wc.timezone === timezone))
+    }
+
     useEffect(() => {
 
         loadSavedTimers()
@@ -246,7 +250,8 @@ export function TimerProvider({ children }: TimerProviderProps) {
         worldClocks,
         setWorldClocks,
         addWorldClock,
-        deleteWorldClock
+        deleteWorldClock,
+        worldClockExists
     }
 
     return (
