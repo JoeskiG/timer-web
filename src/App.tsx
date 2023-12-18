@@ -36,7 +36,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className='w-full h-full'>
       {
         modal0 && modal0
       }
@@ -59,6 +59,7 @@ function App() {
                 {
                   backgroundColor: backgroundSettings.colors.color1,
                   paddingBottom: `${globalBottomPadding}px`
+
                 }
               ) : (undefined)
             }
@@ -166,7 +167,7 @@ function App() {
         )
       }
 
-    </>
+    </div>
   )
 }
 

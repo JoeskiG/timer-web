@@ -29,6 +29,14 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
 
     const [globalBottomPadding, setGlobalBottomPadding] = useState<number | null>(null)
 
+    function updateGlobalBottomPadding(value: number) {
+        if (value > window.innerHeight || value < 0) {
+            return
+        }
+
+        setGlobalBottomPadding(value)
+    }
+
     const handleResize = () => {
         if (window.innerWidth < 1024) {
             setIsMobile(true)
@@ -94,7 +102,7 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
         isMobile,
 
         globalBottomPadding,
-        setGlobalBottomPadding,
+        updateGlobalBottomPadding,
         
         modal0,
         modal1,

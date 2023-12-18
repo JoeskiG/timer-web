@@ -25,8 +25,8 @@ function VerticalTabControl({ tabs }: IVerticalTabControl): JSX.Element {
     if (isMobile) {
         if (!selectedTab) {
             return (
-                <div className="flex flex-row w-full h-full gap-2 overflow-y-auto">
-                    <div className="flex w-full flex-col gap-2 bg-gray-200 rounded-lg p-2">
+                <div className="flex flex-row w-full h-full gap-2">
+                    <div className="flex w-full flex-col gap-2 bg-gray-200 overflow-y-auto rounded-lg p-2">
                         {
                             tabs.length > 0 && (
                                 tabs.map((tab: ITab, i: number) => (
@@ -54,8 +54,8 @@ function VerticalTabControl({ tabs }: IVerticalTabControl): JSX.Element {
     }
 
     return (
-        <div className="flex flex-row w-full h-full gap-2 overflow-y-auto">
-            <div className="flex flex-col gap-2 bg-gray-200 rounded-lg p-2">
+        <div className="flex flex-row w-full h-full gap-2 ">
+            <div className="flex flex-col gap-2 overflow-y-auto bg-gray-200 rounded-lg p-2">
                 {
                     tabs.length > 0 && (
                         tabs.map((tab: ITab, i: number) => (

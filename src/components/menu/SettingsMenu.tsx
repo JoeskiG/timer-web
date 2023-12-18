@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react"
 import { useGlobalContext } from "../../contexts/useGlobalContext"
 import { BACKGROUND_MODES } from "../../util/constants"
 import BackgroundSettingsModal from "../modals/BackgroundSettingsModal"
@@ -9,17 +10,21 @@ interface IBackgroundModeButton {
 
 function SettingsMenu(): JSX.Element {
 
-    const { 
-        setModal, 
+    const {
+        setModal,
         backgroundMode,
         showCurrentDate,
-        toggleShowCurrentDate
-     } = useGlobalContext() as { 
-        setModal: (id: number, element: JSX.Element) => void, 
+        toggleShowCurrentDate,
+        globalBottomPadding,
+        updateGlobalBottomPadding
+    } = useGlobalContext() as {
+        setModal: (id: number, element: JSX.Element) => void,
         backgroundMode: BACKGROUND_MODES,
         showCurrentDate: boolean,
-        toggleShowCurrentDate: () => boolean
-    
+        toggleShowCurrentDate: () => boolean,
+        globalBottomPadding: number | null,
+        updateGlobalBottomPadding: (value: number) => void
+
     }
 
     const handleClickBackgroundMode = (mode: BACKGROUND_MODES) => {
@@ -30,6 +35,12 @@ function SettingsMenu(): JSX.Element {
 
     function handleToggleShowCurrentDate() {
         toggleShowCurrentDate()
+    }
+
+
+    function handleGlobalBottomPaddingChange(e: ChangeEvent<HTMLInputElement>) {
+        const target = e.target as HTMLInputElement;
+        updateGlobalBottomPadding(Number(target.value))
     }
 
     function BackgroundModeButton({ text, bgMode }: IBackgroundModeButton): JSX.Element {
@@ -52,6 +63,15 @@ function SettingsMenu(): JSX.Element {
             <div className="flex flex-row justify-between transition-all bg-gray-200 rounded-full hover:shadow-md standardPadding px-6 items-center w-full">
                 <p className="font-bold">Show Current Date</p>
                 <input onClick={handleToggleShowCurrentDate} checked={showCurrentDate} className="mx-2 scale-125" type="checkbox" id="showCurrentDate" />
+            </div>
+
+            <div className="flex flex-row justify-between transition-all bg-gray-200 rounded-full hover:shadow-md gap-8 standardPadding px-6 items-center w-full">
+                <p className=" whitespace-nowrap font-bold">Bottom Padding {"(use if taskbar is covering this)"}</p>
+                <div className="flex w-full flex-row gap-8 items-center">
+                    <input className="w-full slider !bg-gray-300" onChange={handleGlobalBottomPaddingChange} type="range" min={0} step={1} max={window.innerHeight} value={globalBottomPadding ?? 0} />
+                    <p className=" whitespace-nowrap">{globalBottomPadding} px</p>
+                </div>
+
             </div>
 
             <div className="flex flex-col gap-4 overflow-y-auto pb-16">

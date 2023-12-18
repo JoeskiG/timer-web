@@ -41,11 +41,7 @@ h1 {
   @apply !text-7xl;
 }
 
-#timerMain {
-  /* @apply bg-green-400; */
-}
-
-
+/* 
 @keyframes bg-change {
 
   0%,
@@ -56,7 +52,7 @@ h1 {
   50% {
     filter: hue-rotate(-180deg);
   }
-}
+} */
 
 @keyframes gradient {
   0% {
@@ -149,7 +145,7 @@ h1 {
 }
 
 .verticalTab {
-  @apply px-4 text-left py-2 transition-all disabled:text-[var(--disabledTextColor)];
+  @apply px-4 text-left py-2 transition-all disabled:text-[var(--disabledTextColor)] whitespace-nowrap pr-8;
 }
 
 .verticalTabSelected {
