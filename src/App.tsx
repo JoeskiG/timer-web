@@ -134,7 +134,7 @@ function App() {
 
             {
               showCurrentDate && (
-                <div className='clockDisplay relative transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-gray-200 flex justify-center items-center'>
+                <div onClick={handleClickTimer} className='clockDisplay relative transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-gray-200 flex justify-center items-center'>
                   <h2>{formatDate(new Date().toString())}</h2>
 
                 </div>
@@ -145,7 +145,7 @@ function App() {
               {
                 worldClocks.length > 0 && (
                   worldClocks.map((wc: WorldClock, i: number) => (
-                    <div key={i} className='clockDisplay relative transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-gray-200 flex justify-center items-center'>
+                    <div key={i} onClick={handleClickTimer} className='clockDisplay relative transition-all p-24 shadow-2xl hover:shadow-3xl hover:scale-[100.5%] rounded-full bg-gray-200 flex justify-center items-center'>
                       <h2>{zeroPad(wc.hours, 2)}:{zeroPad(wc.minutes, 2)}:{zeroPad(wc.seconds, 2)} in {wc.timezoneText}</h2>
 
                     </div>

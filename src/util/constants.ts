@@ -27,7 +27,8 @@ export const CONSTANTS = {
             animationDuration: 10000 //ms
         },
         settings: {
-            showCurrentDate: true
+            showCurrentDate: true,
+            globalBottomPadding: 50
         }
 
     }

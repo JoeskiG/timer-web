@@ -7,6 +7,7 @@ const GlobalContext = createContext<any>({})
 const i_savedBackground = getSavedBackground()
 
 var i_showCurrentDate = localStorage.getItem('showCurrentDate')
+const i_globalBottomPadding = localStorage.getItem('savedBottomPadding') ? Number(localStorage.getItem('savedBottomPadding')) : CONSTANTS.defaults.settings.globalBottomPadding
 
 const i_showCurrentDateParsed = i_showCurrentDate ? JSON.parse(i_showCurrentDate) : null
 
@@ -27,7 +28,7 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
 
     const [showCurrentDate, setShowCurrentDate] = useState<boolean>(i_showCurrentDateParsed !== null ? i_showCurrentDateParsed : CONSTANTS.defaults.settings.showCurrentDate)
 
-    const [globalBottomPadding, setGlobalBottomPadding] = useState<number | null>(null)
+    const [globalBottomPadding, setGlobalBottomPadding] = useState<number | null>(i_globalBottomPadding)
 
     function updateGlobalBottomPadding(value: number) {
         if (value > window.innerHeight || value < 0) {
@@ -35,6 +36,7 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
         }
 
         setGlobalBottomPadding(value)
+        localStorage.setItem('savedBottomPadding', value.toString())
     }
 
     const handleResize = () => {
