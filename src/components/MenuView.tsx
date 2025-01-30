@@ -1,12 +1,12 @@
-import VerticalTabControl from "./controls/VerticalTabControl"
-import CountdownMenu from "./menu/CountdownsMenu"
-import SettingsMenu from "./menu/SettingsMenu"
-import AboutMenu from "./menu/AboutMenu"
-import TimersMenu from "./menu/TimersMenu"
-import StopwatchesMenu from "./menu/StopwatchesMenu"
-import WorldClockMenu from "./menu/WorldClockMenu"
 import { FaChevronLeft } from "react-icons/fa6"
 import { useGlobalContext } from "../contexts/useGlobalContext"
+import VerticalTabControl from "./controls/VerticalTabControl"
+import AboutMenu from "./menu/AboutMenu"
+import CountdownMenu from "./menu/CountdownsMenu"
+import SettingsMenu from "./menu/SettingsMenu"
+import StopwatchesMenu from "./menu/StopwatchesMenu"
+import TimersMenu from "./menu/TimersMenu"
+import WorldClockMenu from "./menu/WorldClockMenu"
 
 interface IMenuView {
     onClose: () => void
@@ -16,9 +16,7 @@ function MenuView({ onClose }: IMenuView): JSX.Element {
 
     const {
         globalBottomPadding
-    } = useGlobalContext() as {
-        globalBottomPadding: number | null
-    }
+    } = useGlobalContext()
 
     return (
         <>

@@ -1,7 +1,7 @@
 import { FaRegTrashCan } from "react-icons/fa6"
+import { useGlobalContext } from "../contexts/useGlobalContext"
 import { useTimerContext } from "../contexts/useTimerContext"
 import { Countdown } from "../util/countdown"
-import { useGlobalContext } from "../contexts/useGlobalContext"
 import ConfirmDialog from "./templates/ConfirmDialog"
 
 interface ICountdownContainer {
@@ -10,7 +10,7 @@ interface ICountdownContainer {
 
 
 function CountdownContainer({ countdown }: ICountdownContainer): JSX.Element {
-    const { setModal } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void }
+    const { setModal } = useGlobalContext()
     const { deleteCountdown } = useTimerContext() as { deleteCountdown: (id: string) => void }
 
     function handleClickDelete() {

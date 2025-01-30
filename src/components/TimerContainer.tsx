@@ -1,8 +1,8 @@
 import { FaRegTrashCan } from "react-icons/fa6"
+import { useGlobalContext } from "../contexts/useGlobalContext"
 import { useTimerContext } from "../contexts/useTimerContext"
 import { Timer } from "../util/timer"
 import ConfirmDialog from "./templates/ConfirmDialog"
-import { useGlobalContext } from "../contexts/useGlobalContext"
 
 interface ITimerCContainer {
     timer: Timer
@@ -10,7 +10,7 @@ interface ITimerCContainer {
 
 
 function TimerContainer({ timer }: ITimerCContainer): JSX.Element {
-    const { setModal } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void }
+    const { setModal } = useGlobalContext()
     const { deleteTimer } = useTimerContext() as { deleteTimer: (id: string) => void }
 
     function handleClickDelete() {

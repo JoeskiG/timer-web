@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from "react";
-import BaseModal from "./../templates/BaseModal"
 import { HexColorPicker } from "react-colorful";
 import { useGlobalContext } from "../../contexts/useGlobalContext";
 import { BACKGROUND_MODES, CONSTANTS } from "../../util/constants";
+import BaseModal from "./../templates/BaseModal";
 
 interface IBackgroundSettingsModal {
     id: number,
@@ -11,7 +11,7 @@ interface IBackgroundSettingsModal {
 
 function BackgroundSettingsModal(props: IBackgroundSettingsModal): JSX.Element {
 
-    const { updateBackground, removeModal, backgroundSettings } = useGlobalContext() as { updateBackground: (newBackground: any) => void, removeModal: (id: number) => void, backgroundSettings: any }
+    const { updateBackground, removeModal, backgroundSettings } = useGlobalContext()
     const [color1, setColor1] = useState<string>(typeof backgroundSettings?.colors?.color1 !== 'undefined' ? backgroundSettings.colors.color1 : CONSTANTS.defaults.background.colors.color1);
     const [color2, setColor2] = useState<string>(typeof backgroundSettings?.colors?.color2 !== 'undefined' ? backgroundSettings.colors.color2 : CONSTANTS.defaults.background.colors.color2);
     const [color3, setColor3] = useState<string>(typeof backgroundSettings?.colors?.color3 !== 'undefined' ? backgroundSettings.colors.color3 : CONSTANTS.defaults.background.colors.color3);

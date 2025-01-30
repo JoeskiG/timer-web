@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
+import { useGlobalContext } from "../../contexts/useGlobalContext"
 import { useTimerContext } from "../../contexts/useTimerContext"
 import { CONSTANTS, CONTROL_TYPES } from "../../util/constants"
+import { Countdown } from "../../util/countdown"
+import { IMonthData, getMonthData } from "../../util/util"
 import IncrementControl from "./../controls/IncrementControl"
 import BaseModal from "./../templates/BaseModal"
-import { IMonthData, getMonthData } from "../../util/util"
-import { useGlobalContext } from "../../contexts/useGlobalContext"
-import { Countdown } from "../../util/countdown"
 
 interface ICreateCountdownModal {
     id: number
@@ -16,7 +16,7 @@ const defaultYear = new Date().getFullYear()
 function CreateCountdownModal(props: ICreateCountdownModal): JSX.Element {
 
     const { addCountdown } = useTimerContext() as { addCountdown: (item: Countdown) => void }
-    const { removeModal, setModal } = useGlobalContext() as { removeModal: (id: number) => void, setModal: (id: number, element: JSX.Element) => void }
+    const { removeModal, setModal } = useGlobalContext()
 
 
     const [day, setDay] = useState<number>(1)

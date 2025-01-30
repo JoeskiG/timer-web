@@ -10,7 +10,7 @@ interface IConfirmDialog {
 
 function ConfirmDialog({ id, onConfirm, title, text }: IConfirmDialog): JSX.Element {
 
-    const { removeModal } = useGlobalContext() as { removeModal: (id: number) => void }
+    const { removeModal } = useGlobalContext()
 
     function removeSelf() {
         removeModal(id)

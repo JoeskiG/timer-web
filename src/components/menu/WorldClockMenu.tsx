@@ -1,23 +1,23 @@
+import { CityData } from 'city-timezones';
 import { useState } from "react";
-import { CityData } from 'city-timezones'
+import { FaPlus, FaRegTrashCan } from "react-icons/fa6";
 import {
     ComposableMap,
     Geographies,
     Geography,
     ZoomableGroup
 } from 'react-simple-maps';
-import { getTextAfterChar, zeroPad } from "../../util/util";
-import { FaPlus, FaRegTrashCan } from "react-icons/fa6";
-import { WorldClock } from "../../util/worldClock";
-import { useTimerContext } from "../../contexts/useTimerContext";
 import { useGlobalContext } from "../../contexts/useGlobalContext";
-import ConfirmDialog from "../templates/ConfirmDialog";
 import { IMousePosition, useMousePositionContext } from "../../contexts/useMousePositionContext";
+import { useTimerContext } from "../../contexts/useTimerContext";
 import { CityTimezones } from "../../util/cityTimezones";
+import { getTextAfterChar, zeroPad } from "../../util/util";
+import { WorldClock } from "../../util/worldClock";
+import ConfirmDialog from "../templates/ConfirmDialog";
 
 
 function WorldClockMenu(): JSX.Element {
-    const { setModal } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void }
+    const { setModal } = useGlobalContext()
     const { deleteWorldClock, addWorldClock, worldClocks, worldClockExists } = useTimerContext() as { deleteWorldClock: (id: string) => void, addWorldClock: (item: WorldClock) => void, worldClocks: WorldClock[], worldClockExists: (timezone: string) => boolean }
     const { mousePosition } = useMousePositionContext() as { mousePosition: IMousePosition }
 

@@ -8,6 +8,7 @@ const i_savedBackground = getSavedBackground()
 
 var i_showCurrentDate = localStorage.getItem('showCurrentDate')
 const i_globalBottomPadding = localStorage.getItem('savedBottomPadding') ? Number(localStorage.getItem('savedBottomPadding')) : CONSTANTS.defaults.settings.globalBottomPadding
+const i_globalZoom = localStorage.getItem('savedZoom') ? Number(localStorage.getItem('savedZoom')) : CONSTANTS.defaults.settings.globalZoom
 
 const i_showCurrentDateParsed = i_showCurrentDate ? JSON.parse(i_showCurrentDate) : null
 
@@ -29,6 +30,7 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
     const [showCurrentDate, setShowCurrentDate] = useState<boolean>(i_showCurrentDateParsed !== null ? i_showCurrentDateParsed : CONSTANTS.defaults.settings.showCurrentDate)
 
     const [globalBottomPadding, setGlobalBottomPadding] = useState<number | null>(i_globalBottomPadding)
+    const [globalZoom, setGlobalZoom] = useState<number | null>(i_globalZoom)
 
     function updateGlobalBottomPadding(value: number) {
         if (value > window.innerHeight || value < 0) {
@@ -50,6 +52,10 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
     useEffect(() => {
         handleResize()
         window.addEventListener("resize", handleResize)
+
+        if (typeof globalZoom === 'number') {
+            document.body.style.zoom = `${globalZoom || 100}%`;
+        }
 
 
         return () => {
@@ -90,6 +96,12 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
         saveBackground(newBackground)
     }
 
+    function updateGlobalZoom(value: number) {
+        setGlobalZoom(value)
+        document.body.style.zoom = `${value || 100}%`;
+        localStorage.setItem('savedZoom', value.toString())
+    }
+
     function toggleShowCurrentDate(): boolean {
         const newShowCurrentDate = !showCurrentDate
         setShowCurrentDate(newShowCurrentDate)
@@ -105,7 +117,10 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
 
         globalBottomPadding,
         updateGlobalBottomPadding,
-        
+
+        globalZoom,
+        updateGlobalZoom,
+
         modal0,
         modal1,
         modal2,
@@ -126,4 +141,21 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
     )
 }
 
-export const useGlobalContext = () => useContext(GlobalContext);
+export const useGlobalContext = (() => useContext(GlobalContext)) as () => {
+    modal0: JSX.Element;
+    modal1: JSX.Element;
+    modal2: JSX.Element;
+    backgroundSettings: any;
+    removeModal: (id: number) => void;
+    updateBackground: (newBackground: any) => void;
+    setModal: (id: number, element: JSX.Element) => void,
+    backgroundMode: BACKGROUND_MODES,
+    showCurrentDate: boolean,
+    toggleShowCurrentDate: () => boolean,
+    globalBottomPadding: number | null,
+    updateGlobalBottomPadding: (value: number) => void;
+    globalZoom: number;
+    isMobile: boolean;
+    updateGlobalZoom: (value: number) => void;
+
+};

@@ -6,7 +6,7 @@ import CreateTimerModal from "../modals/CreateTimerModal"
 
 function TimersMenu(): JSX.Element {
 
-    const { setModal } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void }
+    const { setModal } = useGlobalContext()
     const { timers } = useTimerContext()
 
     const handleClickCreate = () => {

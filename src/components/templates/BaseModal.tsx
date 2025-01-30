@@ -1,5 +1,5 @@
-import { useGlobalContext } from "../../contexts/useGlobalContext"
 import { FaXmark } from "react-icons/fa6";
+import { useGlobalContext } from "../../contexts/useGlobalContext";
 
 
 interface IBaseModal {
@@ -13,7 +13,7 @@ interface IBaseModal {
 
 function BaseModal(props: IBaseModal): JSX.Element {
 
-    const { removeModal } = useGlobalContext() as { removeModal: (id: number) => void }
+    const { removeModal } = useGlobalContext()
 
     const minWidth = props?.minWidth ?? undefined
     const minHeight = props?.minHeight ?? undefined

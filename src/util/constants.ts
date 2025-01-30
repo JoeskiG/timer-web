@@ -28,7 +28,8 @@ export const CONSTANTS = {
         },
         settings: {
             showCurrentDate: true,
-            globalBottomPadding: 50
+            globalBottomPadding: 50,
+            globalZoom: 100
         }
 
     }

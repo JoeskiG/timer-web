@@ -13,7 +13,7 @@ interface IVerticalTabControl {
 }
 
 function VerticalTabControl({ tabs }: IVerticalTabControl): JSX.Element {
-    const { isMobile } = useGlobalContext() as { isMobile: boolean }
+    const { isMobile } = useGlobalContext()
 
     const [selectedTab, setSelectedTab] = useState<ITab | null>(isMobile ? null : (tabs[0] || null))
 

@@ -2,11 +2,42 @@ import { ChangeEvent } from "react"
 import { useGlobalContext } from "../../contexts/useGlobalContext"
 import { BACKGROUND_MODES } from "../../util/constants"
 import BackgroundSettingsModal from "../modals/BackgroundSettingsModal"
+import UpdateGlobalZoomModal from "../modals/UpdateGlobalZoomModal"
 
 interface IBackgroundModeButton {
     text: string,
     bgMode: BACKGROUND_MODES
 }
+
+const zoomPresets = [
+    {
+        value: 25,
+    },
+    {
+        value: 50,
+    },
+    {
+        value: 75,
+    },
+    {
+        value: 100,
+    },
+    {
+        value: 110,
+    },
+    {
+        value: 125,
+    },
+    {
+        value: 150,
+    },
+    {
+        value: 175,
+    },
+    {
+        value: 200,
+    },
+]
 
 function SettingsMenu(): JSX.Element {
 
@@ -16,16 +47,10 @@ function SettingsMenu(): JSX.Element {
         showCurrentDate,
         toggleShowCurrentDate,
         globalBottomPadding,
-        updateGlobalBottomPadding
-    } = useGlobalContext() as {
-        setModal: (id: number, element: JSX.Element) => void,
-        backgroundMode: BACKGROUND_MODES,
-        showCurrentDate: boolean,
-        toggleShowCurrentDate: () => boolean,
-        globalBottomPadding: number | null,
-        updateGlobalBottomPadding: (value: number) => void
-
-    }
+        updateGlobalBottomPadding,
+        globalZoom,
+        updateGlobalZoom
+    } = useGlobalContext()
 
     const handleClickBackgroundMode = (mode: BACKGROUND_MODES) => {
         setModal(1, (
@@ -41,6 +66,18 @@ function SettingsMenu(): JSX.Element {
     function handleGlobalBottomPaddingChange(e: ChangeEvent<HTMLInputElement>) {
         const target = e.target as HTMLInputElement;
         updateGlobalBottomPadding(Number(target.value))
+    }
+
+
+    function handleZoomChange(e: ChangeEvent<any>) {
+        const target = e.target as any;
+        updateGlobalZoom(Number(target.value))
+    }
+
+    function openZoomModal() {
+        setModal(0, (
+            <UpdateGlobalZoomModal id={0} />
+        ))
     }
 
     function BackgroundModeButton({ text, bgMode }: IBackgroundModeButton): JSX.Element {
@@ -70,6 +107,27 @@ function SettingsMenu(): JSX.Element {
                 <div className="flex w-full flex-row gap-8 items-center">
                     <input className="w-full slider !bg-gray-300" onChange={handleGlobalBottomPaddingChange} type="range" min={0} step={1} max={window.innerHeight} value={globalBottomPadding ?? 0} />
                     <p className=" whitespace-nowrap">{globalBottomPadding} px</p>
+                </div>
+
+            </div>
+
+            <div className="flex flex-row justify-between transition-all bg-gray-200 rounded-full hover:shadow-md gap-8 standardPadding px-6 items-center w-full">
+                <p className="whitespace-nowrap font-bold">Zoom</p>
+
+                <div className="flex flex-row gap-4 items-center">
+                    <select defaultValue={globalZoom} onChange={handleZoomChange} name="globalZoom" id="globalZoom">
+                        {
+                            zoomPresets.map((preset, i) => (
+                                <option key={i} className={globalZoom === preset.value ? "font-semibold" : ""} value={preset.value}>
+                                    {preset.value}%
+                                </option>
+                            ))
+                        }
+
+                    </select>
+                    <button onClick={openZoomModal}>
+                        Set Custom
+                    </button>
                 </div>
 
             </div>

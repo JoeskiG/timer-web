@@ -1,11 +1,11 @@
-import { useTimerContext } from './contexts/useTimerContext'
-import { useGlobalContext } from './contexts/useGlobalContext';
-import MenuView from './components/MenuView';
-import { formatDate, zeroPad } from './util/util';
-import { FaGear } from 'react-icons/fa6';
-import { Countdown } from './util/countdown';
-import { BACKGROUND_MODES } from './util/constants';
 import { useState } from 'react';
+import { FaGear } from 'react-icons/fa6';
+import MenuView from './components/MenuView';
+import { useGlobalContext } from './contexts/useGlobalContext';
+import { useTimerContext } from './contexts/useTimerContext';
+import { BACKGROUND_MODES } from './util/constants';
+import { Countdown } from './util/countdown';
+import { formatDate, zeroPad } from './util/util';
 import { WorldClock } from './util/worldClock';
 
 function App() {
@@ -18,15 +18,7 @@ function App() {
     backgroundSettings,
     showCurrentDate,
     globalBottomPadding
-  } = useGlobalContext() as {
-    //setModal: (id: number, element: JSX.Element) => void,
-    modal0: JSX.Element,
-    modal1: JSX.Element,
-    backgroundMode: BACKGROUND_MODES,
-    backgroundSettings: any,
-    showCurrentDate: boolean,
-    globalBottomPadding: number | null
-  }
+  } = useGlobalContext()
 
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
 

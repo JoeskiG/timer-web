@@ -1,10 +1,10 @@
 import { useState } from "react"
+import { useGlobalContext } from "../../contexts/useGlobalContext"
 import { useTimerContext } from "../../contexts/useTimerContext"
 import { CONTROL_TYPES } from "../../util/constants"
+import { Timer } from "../../util/timer"
 import IncrementControl from "./../controls/IncrementControl"
 import BaseModal from "./../templates/BaseModal"
-import { useGlobalContext } from "../../contexts/useGlobalContext"
-import { Timer } from "../../util/timer"
 
 interface ICreateTimerModal {
     id: number
@@ -13,7 +13,7 @@ interface ICreateTimerModal {
 function CreateTimerModal(props: ICreateTimerModal): JSX.Element {
 
     const { addTimer } = useTimerContext() as { addTimer: (item: Timer) => void }
-    const { removeModal } = useGlobalContext() as { removeModal: (id: number) => void }
+    const { removeModal } = useGlobalContext()
 
 
     const [days, setDays] = useState<number>(0)

@@ -6,7 +6,7 @@ import CreateCountdownModal from "../modals/CreateCountdownModal"
 
 function CountdownMenu(): JSX.Element {
 
-    const { setModal } = useGlobalContext() as { setModal: (id: number, element: JSX.Element) => void }
+    const { setModal } = useGlobalContext()
     const { countdowns } = useTimerContext()
 
     const handleClickCreate = () => {
