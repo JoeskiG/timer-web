@@ -69,11 +69,6 @@ function SettingsMenu(): JSX.Element {
     }
 
 
-    function handleZoomChange(e: ChangeEvent<any>) {
-        const target = e.target as any;
-        updateGlobalZoom(Number(target.value))
-    }
-
     function openZoomModal() {
         setModal(0, (
             <UpdateGlobalZoomModal id={0} />
@@ -115,16 +110,12 @@ function SettingsMenu(): JSX.Element {
                 <p className="whitespace-nowrap font-bold">Zoom</p>
 
                 <div className="flex flex-row gap-4 items-center">
-                    <select defaultValue={globalZoom} onChange={handleZoomChange} name="globalZoom" id="globalZoom">
-                        {
-                            zoomPresets.map((preset, i) => (
-                                <option key={i} className={globalZoom === preset.value ? "font-semibold" : ""} value={preset.value}>
-                                    {preset.value}%
-                                </option>
-                            ))
-                        }
+                    {
+                        zoomPresets.map((preset, i) => (
+                            <button key={i} onClick={() => updateGlobalZoom(preset.value)} className={`button_3 ${globalZoom === preset.value ? "bg-[var(--secondaryColor)]" : undefined}`}>{preset.value}%</button>
+                        ))
+                    }
 
-                    </select>
                     <button onClick={openZoomModal}>
                         Set Custom
                     </button>

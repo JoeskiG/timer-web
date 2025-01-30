@@ -54,7 +54,7 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
         window.addEventListener("resize", handleResize)
 
         if (typeof globalZoom === 'number') {
-            document.body.style.zoom = `${globalZoom || 100}%`;
+            (document as any).body.style.zoom = `${globalZoom || 100}%`;
         }
 
 
@@ -97,8 +97,8 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
     }
 
     function updateGlobalZoom(value: number) {
-        setGlobalZoom(value)
-        document.body.style.zoom = `${value || 100}%`;
+        setGlobalZoom(value);
+        (document as any).body.style.zoom = `${value || 100}%`;
         localStorage.setItem('savedZoom', value.toString())
     }
 
